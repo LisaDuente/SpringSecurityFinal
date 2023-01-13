@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -27,13 +29,14 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**/auth**").permitAll()
+                .antMatchers("/**/user/**").hasAuthority("USER")
+                .antMatchers("/**/auth/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                //.sessionManagement()
-                //.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //this can maybe make problems??
-                //.and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //this can maybe make problems??
+                .and()
                 .authenticationProvider(authProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()

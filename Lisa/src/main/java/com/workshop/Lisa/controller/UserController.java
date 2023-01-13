@@ -20,8 +20,9 @@ public class UserController {
         return ResponseEntity.ok("Goodbye from User Controller");
     }
 
-    //@PreAuthorize("hasRole('USER')")
+
     @GetMapping("/needsUser")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<String> usersOnly(){
         return ResponseEntity.ok("fuck those admins");
     }

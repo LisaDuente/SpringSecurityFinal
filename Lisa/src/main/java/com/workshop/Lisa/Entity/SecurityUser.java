@@ -21,7 +21,7 @@ public class SecurityUser implements UserDetails {
         return Arrays.stream(
                         user.getRoles()
                                 .split(","))
-                .map(SimpleGrantedAuthority::new)
+                .map(role -> new SimpleGrantedAuthority(role))
                 .toList(); //returning a list of granted authorities that were in Roles
     }
 
