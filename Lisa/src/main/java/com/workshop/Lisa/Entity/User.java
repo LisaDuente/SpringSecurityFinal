@@ -7,13 +7,32 @@ import java.util.Set;
 @Entity
 public class User {
     @Id
+    private String userId;
     private String userName;
+    private String userEmail;
     private String userFirstname;
     private String userLastName;
     private String userPassword;
     private String roles;
+    //preferences here
 
     public User() {
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
