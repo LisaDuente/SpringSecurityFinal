@@ -2,6 +2,7 @@ package com.workshop.Lisa.controller;
 
 import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.config.JwtUtils;
+import com.workshop.Lisa.service.AuthService;
 import com.workshop.Lisa.service.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,21 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationManager manager;
-    private final JpaUserDetailsService jpaUDS;
-    private final JwtUtils jwtU;
+    private final AuthService service;
 
     @PostMapping("/authUser")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
-        System.out.println("In auth");
-        manager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUserName(), request.getUserPassword())
-        );
-        final UserDetails userDetails = jpaUDS.loadUserByUsername(request.getUserName());
-        if(userDetails != null){
-            return ResponseEntity.ok(jwtU.generateToken(userDetails));
+        String token = service.generateToken(request);
+        if(!token.equals("400")){
+            return ResponseEntity.ok(service.generateToken(request));
+        }else{
+            return ResponseEntity.status(400).body("An error accured");
         }
-        return ResponseEntity.status(400).body("Some error has occured!");
+
     }
 
 }
