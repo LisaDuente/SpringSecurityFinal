@@ -1,14 +1,20 @@
 package com.workshop.Lisa.Entity;
 
+import com.workshop.Lisa.Utils.GenderEnum;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.util.Set;
+import java.sql.Date;
+
 
 @Entity
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,77 +24,24 @@ public class User {
     @Column(unique = true)
     private String userEmail;
     private String userFirstname;
-    private String userLastName;
+    private String userLastname;
     private String userPassword;
+    private Date age;
+    @Enumerated(EnumType.STRING)
+    private GenderEnum gender;
     private String roles;
     //preferences here
 
-    public User() {
-    }
-
-    public User(String name, String email,String firstname, String lastname, String password, String roles) {
+    public User(String name, String email,String firstname, String lastname, String password, String roles, Date age, GenderEnum gender) {
         this.userName = name;
         this.userEmail = email;
         this.userFirstname = firstname;
-        this.userLastName = lastname;
+        this.userLastname = lastname;
         this.userPassword = password;
         this.roles = roles;
+        this.age = age;
+        this.gender = gender;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserFirstname() {
-        return userFirstname;
-    }
-
-    public void setUserFirstname(String userFirstname) {
-        this.userFirstname = userFirstname;
-    }
-
-    public String getUserLastName() {
-        return userLastName;
-    }
-
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
 }
 

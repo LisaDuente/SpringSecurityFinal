@@ -13,5 +13,7 @@ public class UserDto {
     private String userFirstname;
     private String userLastName;
     private String roles;
+    private String gender;
+    private String age;
     //and more!
 }
