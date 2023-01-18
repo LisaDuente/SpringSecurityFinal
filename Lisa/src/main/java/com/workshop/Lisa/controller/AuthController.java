@@ -1,14 +1,10 @@
 package com.workshop.Lisa.controller;
 
 import com.workshop.Lisa.Dto.AuthenticationRequest;
-import com.workshop.Lisa.config.JwtUtils;
+import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.service.AuthService;
-import com.workshop.Lisa.service.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +26,16 @@ public class AuthController {
             return ResponseEntity.status(400).body("An error accured");
         }
 
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody UserDto dto){
+        String token = service.registerAndLogin(dto);
+        if(!token.equals("400")){
+            return ResponseEntity.ok(token);
+        }else{
+            return ResponseEntity.status(400).body("Something went wrong!");
+        }
     }
 
 }

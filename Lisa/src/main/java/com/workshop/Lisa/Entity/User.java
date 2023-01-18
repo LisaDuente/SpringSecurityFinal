@@ -1,14 +1,21 @@
 package com.workshop.Lisa.Entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.Set;
 
 @Entity
+
 public class User {
     @Id
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
+    @Column(unique = true)
     private String userName;
+    @Column(unique = true)
     private String userEmail;
     private String userFirstname;
     private String userLastName;
@@ -19,6 +26,15 @@ public class User {
     public User() {
     }
 
+    public User(String name, String email,String firstname, String lastname, String password, String roles) {
+        this.userName = name;
+        this.userEmail = email;
+        this.userFirstname = firstname;
+        this.userLastName = lastname;
+        this.userPassword = password;
+        this.roles = roles;
+    }
+
     public String getUserEmail() {
         return userEmail;
     }
@@ -27,11 +43,11 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
