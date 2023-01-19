@@ -15,6 +15,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Region {
     @Id
-    private String regionId;
+    private long regionId;
     private String regionName;
 }

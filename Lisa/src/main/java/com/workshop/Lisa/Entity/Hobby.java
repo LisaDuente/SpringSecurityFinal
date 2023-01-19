@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Hobby {
     @Id
-    private String hobbyId;
+    private long hobbyId;
     @Enumerated(EnumType.STRING)
     private HobbyEnum hobby;
 }

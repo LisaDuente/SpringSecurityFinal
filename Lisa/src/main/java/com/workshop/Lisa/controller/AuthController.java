@@ -25,7 +25,6 @@ public class AuthController {
         }else{
             return ResponseEntity.status(400).body("An error accured");
         }
-
     }
 
     @PostMapping("/register")
@@ -37,5 +36,4 @@ public class AuthController {
             return ResponseEntity.status(400).body("Something went wrong!");
         }
     }
-
 }

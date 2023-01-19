@@ -16,7 +16,7 @@ import java.util.Set;
 public class Preference {
 
     @Id
-    private String userId;
+    private long userId;
     private String minAge;
     private String maxAge;
     private String gender;
@@ -34,5 +34,4 @@ public class Preference {
             inverseJoinColumns = @JoinColumn(name = "hobbyId")
     )
     private Set<Hobby> hobbies;
-
 }
