@@ -39,16 +39,21 @@ public class AuthService {
 
     public String registerAndLogin(UserDto userDto) {
         String password = new BCryptPasswordEncoder().encode(userDto.getUserPassword());
-        Date age = new DateConverter().getDate(userDto.getAge());
+        Date age = new DateConverter().getDate(userDto.getBirthDate());
         GenderEnum gender = GenderEnum.valueOf(userDto.getGender());
         User user = new User(
+                null,
                 userDto.getUserName(),
                 userDto.getUserEmail(),
                 userDto.getUserFirstname(),
                 userDto.getUserLastName(),
-                password ,
+                password,
                 "USER",
-                age, gender); //create new user
+                gender,
+                age);
+
+        //create new user
+
         try{
             userDao.save(user);
         }catch(Exception error){

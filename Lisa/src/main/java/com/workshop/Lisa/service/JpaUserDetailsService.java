@@ -2,6 +2,7 @@ package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Entity.SecurityUser;
+import com.workshop.Lisa.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
