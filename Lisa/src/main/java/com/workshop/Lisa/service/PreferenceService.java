@@ -21,14 +21,16 @@ public class PreferenceService {
 
     private final HobbyService hobbyService;
 
-    public void createPreference(PreferenceDto preferenceDto) {
+    private final UserService userService;
+
+    public String createPreference(PreferenceDto preferenceDto, String userName) {
 
         Set<Region> region = new HashSet<Region>();
         for (String regionString : preferenceDto.getRegions()) {
             try {
                 region.add(regionService.findRegionByName(regionString));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                return "Error in Regions!";
             }
         }
 
@@ -38,12 +40,15 @@ public class PreferenceService {
             try {
                 hobby.add(hobbyService.findByHobby(hobbyEnum));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                return "Error in Hobbies!";
             }
         }
 
+        long userId = this.userService.findUserByUsername(userName).getUserId();
+
+
         Preference preference = new Preference(
-                Long.parseLong(preferenceDto.getUserID()),
+                userId,
                 preferenceDto.getMinAge(),
                 preferenceDto.getMaxAge(),
                 preferenceDto.getGender(),
@@ -52,5 +57,6 @@ public class PreferenceService {
         );
 
         this.dao.save(preference);
+        return "Preferences successfully set!";
     }
 }
