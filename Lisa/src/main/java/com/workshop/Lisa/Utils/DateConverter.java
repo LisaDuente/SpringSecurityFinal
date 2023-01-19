@@ -14,7 +14,7 @@ public class DateConverter {
     public Date getDate(String birthDate) {
         java.util.Date date = null;
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
