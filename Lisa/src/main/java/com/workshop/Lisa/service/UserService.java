@@ -34,4 +34,8 @@ public class UserService {
 
         return this.dao.save(existingUser);
     }
+
+    public User findById(Long id){
+        return this.dao.findById(id).orElseThrow(() -> new EntityNotFoundException("Could not find user with that id!"));
+    }
 }
