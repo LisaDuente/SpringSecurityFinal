@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class User {
     private Long userId;
     private String userName;
     private String userEmail;
+    private String description;
     private String userFirstname;
     private String userLastName;
     private String userPassword;
@@ -27,6 +29,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
     private Date birthDate;
+    private String contactInformation;
+
     //preferences here
 
 }

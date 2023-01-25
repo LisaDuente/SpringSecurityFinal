@@ -1,17 +1,19 @@
 package com.workshop.Lisa.Utils;
 
-import com.workshop.Lisa.Dto.UserDto;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+
+
 @NoArgsConstructor
 public class DateConverter {
 
 
     public Date getDate(String birthDate) {
+        System.out.println(birthDate);
         java.util.Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);

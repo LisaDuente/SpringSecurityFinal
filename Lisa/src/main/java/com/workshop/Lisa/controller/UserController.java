@@ -1,11 +1,9 @@
 package com.workshop.Lisa.controller;
 
 import com.workshop.Lisa.Dto.UpdateUserDto;
-import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.config.JwtUtils;
 import com.workshop.Lisa.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

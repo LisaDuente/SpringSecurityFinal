@@ -8,12 +8,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserRegisterDto {
     private String userName;
     private String userPassword;
     private String userEmail;
     private String userFirstname;
     private String userLastName;
+    private String contactInformation;
     private String roles;
     private String gender;
     private String birthDate;

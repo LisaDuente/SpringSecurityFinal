@@ -1,7 +1,7 @@
 package com.workshop.Lisa.controller;
 
 import com.workshop.Lisa.Dto.AuthenticationRequest;
-import com.workshop.Lisa.Dto.UserDto;
+import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto dto){
+    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto dto){
         String token = service.registerAndLogin(dto);
         if(!token.equals("400")){
             return ResponseEntity.ok(token);
