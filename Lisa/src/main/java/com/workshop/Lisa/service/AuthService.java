@@ -5,6 +5,7 @@ import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.User;
+import com.workshop.Lisa.Entity.ContactInformation;
 import com.workshop.Lisa.Utils.DateConverter;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.config.JwtUtils;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.rmi.server.UID;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class AuthService {
 
     private final AuthenticationManager manager;
     private final JpaUserDetailsService jpaUDS;
+    private final ContactInformationService contactInformationService;
     private final JwtUtils jwtU;
     private final UserDao userDao;
 
@@ -44,9 +47,10 @@ public class AuthService {
         String password = new BCryptPasswordEncoder().encode(userRegisterDto.getUserPassword());
         Date age = new DateConverter().getDate(userRegisterDto.getBirthDate());
         GenderEnum gender = GenderEnum.valueOf(userRegisterDto.getGender());
-        Set<Hobby> set = new HashSet<Hobby>();
+        ContactInformation contactInfo = this.contactInformationService.createContactInfo( new ContactInformation(null, "","",""));
+
         User user = new User(
-                null,
+                contactInfo.getUserID(),
                 userRegisterDto.getUserName(),
                 userRegisterDto.getUserEmail(),
                 "",
@@ -56,14 +60,17 @@ public class AuthService {
                 "USER",
                 gender,
                 age,
-                "");
+                contactInfo
+                );
 
         //create new user
-
+        System.out.println("user: "+user);
         try{
+
             userDao.save(user);
         }catch(Exception error){
-            return "Användarnamnet eller emejl finns redan!";
+            return error.getMessage();
+           // return "Användarnamnet eller emejl finns redan!";
         }
         return this.generateToken(new AuthenticationRequest(userRegisterDto.getUserName(), userRegisterDto.getUserPassword()));
     }

@@ -1,23 +1,20 @@
 package com.workshop.Lisa.Entity;
 
 import com.workshop.Lisa.Utils.GenderEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     private String userName;
     private String userEmail;
@@ -29,7 +26,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
     private Date birthDate;
-    private String contactInformation;
+    @OneToOne
+    private ContactInformation contactInformation;
 
     //preferences here
 

@@ -6,6 +6,7 @@ import com.workshop.Lisa.Dto.UserContactInfoDto;
 import com.workshop.Lisa.Entity.Contact;
 import com.workshop.Lisa.Entity.User;
 import com.workshop.Lisa.Utils.ContactEnum;
+import com.workshop.Lisa.Entity.ContactInformation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class ContactService {
 
     private final ContactDao contactDao;
     private final UserService userService;
+    private final ContactInformationService contactInformationService;
 
     public Set<UserContactInfoDto> getFriendsInfo(String username) {
         long userId = this.userService.findUserByUsername(username).getUserId();
@@ -58,10 +60,10 @@ public class ContactService {
             String status = temp[1];
             User tempUser = userService.findById(id);
             if(tempUser.getContactInformation() != null){
-                String[] contactInfo = tempUser.getContactInformation().split(",");
+                ContactInformation contactInfo = contactInformationService.getContactInformation(tempUser.getUserId());
                 userSet.add(new UserContactInfoDto(id,tempUser.getUserName(), tempUser.getUserEmail(), contactInfo, status));
             }else{
-                String[] contactInfo = {};
+                ContactInformation contactInfo = new ContactInformation();
                 userSet.add(new UserContactInfoDto(id,tempUser.getUserName(), tempUser.getUserEmail(), contactInfo, status));
             }
 
