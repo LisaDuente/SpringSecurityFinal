@@ -13,8 +13,10 @@ public class UserContactInfoDto {
 
         private long userID;
         private String userName;
-        private String userEmail;
+        private String userFirstname;
+        private String userLastname;
         private ContactInformation contactInformation;
         private String status;
+
 
 }

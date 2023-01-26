@@ -3,9 +3,8 @@ package com.workshop.Lisa.service;
 import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.UserRegisterDto;
-import com.workshop.Lisa.Entity.Hobby;
-import com.workshop.Lisa.Entity.User;
 import com.workshop.Lisa.Entity.ContactInformation;
+import com.workshop.Lisa.Entity.User;
 import com.workshop.Lisa.Utils.DateConverter;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.config.JwtUtils;
@@ -16,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.rmi.server.UID;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Service
@@ -47,12 +43,18 @@ public class AuthService {
         String password = new BCryptPasswordEncoder().encode(userRegisterDto.getUserPassword());
         Date age = new DateConverter().getDate(userRegisterDto.getBirthDate());
         GenderEnum gender = GenderEnum.valueOf(userRegisterDto.getGender());
-        ContactInformation contactInfo = this.contactInformationService.createContactInfo( new ContactInformation(null, "","",""));
+        ContactInformation contactInfo = this.contactInformationService.createContactInfo( new ContactInformation(
+                null,
+                userRegisterDto.getUserEmail(),
+                "",
+                "",
+                "",
+                "",
+                ""));
 
         User user = new User(
                 contactInfo.getUserID(),
                 userRegisterDto.getUserName(),
-                userRegisterDto.getUserEmail(),
                 "",
                 userRegisterDto.getUserFirstname(),
                 userRegisterDto.getUserLastName(),

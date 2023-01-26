@@ -20,4 +20,8 @@ public class ContactInformationService {
     public ContactInformation createContactInfo(ContactInformation contactInformation) {
         return this.dao.save(contactInformation);
     }
+
+    public ContactInformation updateContactInformation(ContactInformation contactInformation) {
+        return this.dao.save(contactInformation);
+    }
 }

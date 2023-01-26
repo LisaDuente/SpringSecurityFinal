@@ -18,4 +18,9 @@ public class UpdateUserDto {
     private String userLastName;
     private String gender;
     private String birthDate;
+    private String facebook;
+    private String instagram;
+    private String discord;
+    private String snapchat;
+    private String userPhoneNumber;
 }
