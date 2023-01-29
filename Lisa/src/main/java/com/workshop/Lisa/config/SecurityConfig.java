@@ -47,8 +47,6 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .and()
                 .httpBasic()
                 .and()
                 .build();

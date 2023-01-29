@@ -18,7 +18,7 @@ public class AuthController {
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
         String token = service.generateToken(request);
         if(!token.equals("400")){
-            return ResponseEntity.ok(service.generateToken(request));
+            return ResponseEntity.ok(token);
         }else{
             return ResponseEntity.status(400).body("An error accured");
         }
