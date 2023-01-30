@@ -5,5 +5,4 @@ public enum ContactEnum {
     PENDING,
     FRIENDS,
     BLOCKED,
-
 }
