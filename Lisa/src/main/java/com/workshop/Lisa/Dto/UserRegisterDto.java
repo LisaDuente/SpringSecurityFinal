@@ -14,8 +14,6 @@ public class UserRegisterDto {
     private String userEmail;
     private String userFirstname;
     private String userLastName;
-    private String contactInformation;
-    private String roles;
     private String gender;
     private String birthDate;
     //and more!

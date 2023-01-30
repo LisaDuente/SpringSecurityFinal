@@ -9,6 +9,7 @@ import com.workshop.Lisa.Utils.HobbyEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,42 +22,51 @@ public class PreferenceService {
 
     private final HobbyService hobbyService;
 
-    private final UserService userService;
+    //private final UserService userService;
 
-    public String createPreference(PreferenceDto preferenceDto, String userName) {
+//    public String createPreference(PreferenceDto preferenceDto, String userName) {
+//
+//        Set<Region> region = new HashSet<Region>();
+//        for (String regionString : preferenceDto.getRegions()) {
+//            try {
+//                region.add(regionService.findRegionByName(regionString));
+//            } catch (Exception e) {
+//                return "Error in Regions!";
+//            }
+//        }
+//
+//        Set<Hobby> hobby = new HashSet<Hobby>();
+//        for(String hobbyString : preferenceDto.getHobbies()) {
+//            HobbyEnum hobbyEnum = HobbyEnum.valueOf(hobbyString);
+//            try {
+//                hobby.add(hobbyService.findByHobby(hobbyEnum));
+//            } catch (Exception e) {
+//                return "Error in Hobbies!";
+//            }
+//        }
+//
+//        long userId = this.userService.findUserByUsername(userName).getUserId();
+//
+//
+//        Preference preference = new Preference(
+//                userId,
+//                preferenceDto.getMinAge(),
+//                preferenceDto.getMaxAge(),
+//                preferenceDto.getGender(),
+//                region,
+//                hobby
+//        );
+//
+//        this.dao.save(preference);
+//        return "Preferences successfully set!";
+//    }
 
-        Set<Region> region = new HashSet<Region>();
-        for (String regionString : preferenceDto.getRegions()) {
-            try {
-                region.add(regionService.findRegionByName(regionString));
-            } catch (Exception e) {
-                return "Error in Regions!";
-            }
-        }
+    public void createPreference(Preference pref){
+        this.dao.save(pref);
+    }
 
-        Set<Hobby> hobby = new HashSet<Hobby>();
-        for(String hobbyString : preferenceDto.getHobbies()) {
-            HobbyEnum hobbyEnum = HobbyEnum.valueOf(hobbyString);
-            try {
-                hobby.add(hobbyService.findByHobby(hobbyEnum));
-            } catch (Exception e) {
-                return "Error in Hobbies!";
-            }
-        }
-
-        long userId = this.userService.findUserByUsername(userName).getUserId();
-
-
-        Preference preference = new Preference(
-                userId,
-                preferenceDto.getMinAge(),
-                preferenceDto.getMaxAge(),
-                preferenceDto.getGender(),
-                region,
-                hobby
-        );
-
-        this.dao.save(preference);
-        return "Preferences successfully set!";
+    public Preference getPrefById(long userId){
+        return this.dao.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("could not find user"));
     }
 }

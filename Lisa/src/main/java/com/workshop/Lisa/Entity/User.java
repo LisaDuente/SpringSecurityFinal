@@ -28,6 +28,8 @@ public class User {
     private Date birthDate;
     @OneToOne
     private ContactInformation contactInformation;
+    @OneToOne
+    private Preference preferences;
 
     //preferences here
 

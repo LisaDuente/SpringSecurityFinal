@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -25,6 +27,7 @@ public class AuthService {
     private final AuthenticationManager manager;
     private final JpaUserDetailsService jpaUDS;
     private final ContactInformationService contactInformationService;
+    private final PreferenceService preferenceService;
     private final JwtUtils jwtU;
     private final UserDao userDao;
 
@@ -51,6 +54,11 @@ public class AuthService {
                 "",
                 "",
                 ""));
+
+        Set<Hobby> hobbies= new HashSet<Hobby>();
+        Set<Region> regions= new HashSet<Region>();
+        Preference pref = new Preference(contactInfo.getUserID(), "", "","", regions ,hobbies);
+        this.preferenceService.createPreference(pref);
 
         User user = new User(
                 contactInfo.getUserID(),

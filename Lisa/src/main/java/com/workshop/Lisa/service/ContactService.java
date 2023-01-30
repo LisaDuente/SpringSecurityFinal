@@ -81,14 +81,21 @@ public class ContactService {
         }
     }
 
-    public String updateStatus(String username, StatusUpdateDto dto) {
-        long userId = this.userService.findUserByUsername(username).getUserId();
-        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId,Long.parseLong(dto.getUserId()));
-        if (contact == null) {
+    public String updateStatus(String username, String userId, String status) {
+        long id = this.userService.findUserByUsername(username).getUserId();
+        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(id, Long.parseLong(userId));
+        Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo( Long.parseLong(userId), id);
+        if (contact == null && contact2 == null) {
             return "No friend request found";
         }
-        contact.setStatus(ContactEnum.valueOf(dto.getStatus()));
-        this.contactDao.save(contact);
+        if(contact != null){
+            contact.setStatus(ContactEnum.valueOf(status));
+            this.contactDao.save(contact);
+        }
+        if(contact2 != null){
+            contact2.setStatus(ContactEnum.valueOf(status));
+            this.contactDao.save(contact2);
+        }
         return "Status successfully updated!";
     }
 

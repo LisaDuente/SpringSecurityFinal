@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserDto {
-
+public class UpdateUserInformationDto {
     private String userPassword;
     private String userEmail;
     private String userFirstname;
@@ -23,10 +21,4 @@ public class UpdateUserDto {
     private String discord;
     private String snapchat;
     private String userPhoneNumber;
-    private String minAge;
-    private String maxAge;
-    private String[] hobbies;
-    private String[] regions;
-    private String preferedGender;
-
 }

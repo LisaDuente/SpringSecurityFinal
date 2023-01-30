@@ -26,12 +26,20 @@ public class ContactController {
         return gson.toJson(service.getFriendsInfo(username));
     }
 
-    @PutMapping("/updateStatus")
+    @PutMapping("/blockUser")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public String updateStatus(@RequestHeader("Authorization") String token, @RequestBody StatusUpdateDto dto){
+    public String blockUser(@RequestHeader("Authorization") String token, @RequestBody String userId){
         token = token.substring(7);
         String username = jwtHelper.extractUsername(token);
-        return service.updateStatus(username, dto);
+        return service.updateStatus(username, userId, "BLOCKED");
+    }
+
+    @PutMapping("/acceptFriendRequest")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String acceptFriendRequest(@RequestHeader("Authorization") String token, @RequestBody String userId){
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return service.updateStatus(username, userId, "FRIENDS");
     }
 
     @DeleteMapping("/unblock")
