@@ -22,6 +22,9 @@ public class UserService {
 
     private final UserDao dao;
     private final ContactInformationService contactInformationService;
+    private final PreferenceService preferenceService;
+    private final HobbyService hobbyService;
+    private final RegionService regionService;
 
     public User findUserByUsername(String userName){
         return this.dao.findByUserName(userName).orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
@@ -60,7 +63,8 @@ public class UserService {
     }
 
     public User findById(Long id){
-        return this.dao.findById(id).orElseThrow(() -> new EntityNotFoundException("Could not find user with that id!"));
+        return this.dao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find user with that id!"));
     }
 
     public User getUserById(String userId){

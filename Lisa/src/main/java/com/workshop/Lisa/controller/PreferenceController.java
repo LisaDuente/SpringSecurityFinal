@@ -15,10 +15,10 @@ public class PreferenceController {
     private final PreferenceService service;
     private final JwtUtils jwtHelper;
 
-    @PostMapping("/createPreference")
-    public String createPreference(@RequestBody PreferenceDto dto, @RequestHeader("Authorization") String token){
-        token = token.substring(7);
-        String username = jwtHelper.extractUsername(token);
-        return this.service.createPreference(dto, username);
-    }
+//    @PostMapping("/createPreference")
+//    public String createPreference(@RequestBody PreferenceDto dto, @RequestHeader("Authorization") String token){
+//        token = token.substring(7);
+//        String username = jwtHelper.extractUsername(token);
+//        return this.service.createPreference(dto, username);
+//    }
 }

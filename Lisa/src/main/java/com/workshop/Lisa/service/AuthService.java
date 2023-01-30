@@ -3,8 +3,7 @@ package com.workshop.Lisa.service;
 import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.UserRegisterDto;
-import com.workshop.Lisa.Entity.ContactInformation;
-import com.workshop.Lisa.Entity.User;
+import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.DateConverter;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.config.JwtUtils;
@@ -70,8 +69,8 @@ public class AuthService {
                 "USER",
                 gender,
                 age,
-                contactInfo
-                );
+                contactInfo,
+                pref);
 
         //create new user
         System.out.println("user: "+user);

@@ -6,13 +6,16 @@ import com.workshop.Lisa.Utils.HobbyEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class HobbyService {
 
     private final HobbyDao hobbyDao;
 
-    public Hobby findByHobby(HobbyEnum hobby) throws Exception {
-        return hobbyDao.findByHobby(hobby).orElseThrow(() -> new Exception("Could not cast Optional into Hobby"));
+    public Hobby findByHobby(HobbyEnum hobby){
+        return hobbyDao.findByHobby(hobby)
+                .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into Hobby"));
     }
 }

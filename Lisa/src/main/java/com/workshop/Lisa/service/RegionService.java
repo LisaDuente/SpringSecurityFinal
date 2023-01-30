@@ -5,12 +5,15 @@ import com.workshop.Lisa.Entity.Region;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class RegionService {
     private final RegionDao regionDao;
 
-    public Region findRegionByName(String regionName) throws Exception {
-        return regionDao.findByRegionName(regionName).orElseThrow(() -> new Exception("Could not cast Optional into Region"));
+    public Region findRegionByName(String regionName){
+        return regionDao.findByRegionName(regionName)
+                .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into Region"));
     }
 }
