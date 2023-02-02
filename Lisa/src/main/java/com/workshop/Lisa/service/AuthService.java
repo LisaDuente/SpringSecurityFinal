@@ -70,7 +70,8 @@ public class AuthService {
                 gender,
                 age,
                 contactInfo,
-                pref);
+                pref,
+                null);
 
         //create new user
         System.out.println("user: "+user);
