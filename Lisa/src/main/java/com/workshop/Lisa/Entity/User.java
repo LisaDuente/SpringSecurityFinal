@@ -25,7 +25,7 @@ public class User {
     private String roles;
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
-    private Date birthDate;
+    private String birthDate;
     @OneToOne
     private ContactInformation contactInformation;
     @OneToOne

@@ -57,7 +57,6 @@ public class AuthService {
 
     public String registerAndLogin(UserRegisterDto userRegisterDto) {
         String password = new BCryptPasswordEncoder().encode(userRegisterDto.getUserPassword());
-        Date age = new DateConverter().getDate(userRegisterDto.getBirthDate());
         GenderEnum gender = GenderEnum.valueOf(userRegisterDto.getGender());
         ContactInformation contactInfo = this.contactInformationService.createContactInfo( new ContactInformation(
                 null,
@@ -82,7 +81,7 @@ public class AuthService {
                 password,
                 "USER",
                 gender,
-                age,
+                userRegisterDto.getBirthDate(),
                 contactInfo,
                 pref,
                 null);

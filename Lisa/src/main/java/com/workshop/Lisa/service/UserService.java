@@ -62,7 +62,7 @@ public class UserService {
         existingUser.setUserFirstname(updateUserDto.getUserFirstname());
         existingUser.setUserLastName(updateUserDto.getUserLastName());
         existingUser.setUserPassword(new BCryptPasswordEncoder().encode(updateUserDto.getUserPassword()));
-        existingUser.setBirthDate(Date.valueOf(updateUserDto.getBirthDate()));
+        existingUser.setBirthDate(updateUserDto.getBirthDate());
         existingUser.setGender(GenderEnum.valueOf(updateUserDto.getGender()));
 
         Region userRegion = regionService.findRegionByName(updateUserDto.getUserRegion());
@@ -135,8 +135,7 @@ public class UserService {
         existingUser.setContactInformation(ci);
         existingUser.setUserFirstname(updateUserInformationDto.getUserFirstname());
         existingUser.setUserLastName(updateUserInformationDto.getUserLastName());
-        existingUser.setUserPassword(new BCryptPasswordEncoder().encode(updateUserInformationDto.getUserPassword()));
-        existingUser.setBirthDate(Date.valueOf(updateUserInformationDto.getBirthDate()));
+        existingUser.setBirthDate(updateUserInformationDto.getBirthDate());
         existingUser.setGender(GenderEnum.valueOf(updateUserInformationDto.getGender()));
 
         Region userRegion = regionService.findRegionByName(updateUserInformationDto.getUserRegion());

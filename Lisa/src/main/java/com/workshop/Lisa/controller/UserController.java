@@ -33,6 +33,7 @@ public class UserController {
     @GetMapping("/getUser")
     @PreAuthorize("hasAnyAuthority('USER')")
     public String getUser(@RequestHeader("Authorization") String token){
+        token = token.substring(7);
         Gson gson = new Gson();
         String username = jwtHelper.extractUsername(token);
         return gson.toJson(this.service.getUserById(this.service.findUserByUsername(username).getUserId().toString()));
