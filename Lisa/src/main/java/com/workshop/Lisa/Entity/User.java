@@ -30,6 +30,8 @@ public class User {
     private ContactInformation contactInformation;
     @OneToOne
     private Preference preferences;
+    @ManyToOne
+    private Region userRegion;
 
     //preferences here
 

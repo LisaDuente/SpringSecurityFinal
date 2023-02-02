@@ -21,4 +21,5 @@ public class UpdateUserInformationDto {
     private String discord;
     private String snapchat;
     private String userPhoneNumber;
+    private String userRegion;
 }

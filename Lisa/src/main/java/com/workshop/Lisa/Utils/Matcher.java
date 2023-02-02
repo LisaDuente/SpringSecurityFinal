@@ -1,5 +1,6 @@
 package com.workshop.Lisa.Utils;
 
+import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.Preference;
 import com.workshop.Lisa.Entity.Region;
@@ -23,22 +24,27 @@ public class Matcher {
 
         ArrayList<Match> allMatches = new ArrayList<>();
         for (User user : allUsers) {
-            allMatches.add(matchUsers(mePrefs, user.getPreferences(), user, meUser));
+            if(!meUser.getUserId().equals(user.getUserId())){
+                allMatches.add(matchUsers(mePrefs, user.getPreferences(), user, meUser));
+            }
+
         }
-        //ArrayList<Match> sorted = (ArrayList<Match>) allMatches.stream()
-         //       .filter((match -> match.getMatchPercentage() > 0))
-          //      .collect(Collectors.toList());
-        allMatches.sort((a,b) -> (int) (b.getMatchPercentage() - (int) a.getMatchPercentage()));
+        allMatches.sort((a, b) -> (b.getMatchPercentage() - a.getMatchPercentage()));
         return allMatches;
     }
 
     public Match matchUsers(Preference me, Preference you, User user, User meUser) {
         //create userSharedPreferenceSet
+
         HashSet<String> shared = new HashSet<>();
         int countMatches = 0;
         //jämför users
+
         Set<Hobby> myHobbies = me.getHobbies();
+        if(myHobbies.isEmpty()){ return new Match(new UserDto(), 0, "Please enter preferences");}
+
         Set<Hobby> yourHobbies = you.getHobbies();
+        if(myHobbies.isEmpty()){ return new Match(new UserDto(), 0, "No preferences found at user");}
 
         for (Hobby hobby : myHobbies) {
             if (yourHobbies.contains(hobby)) {
@@ -65,15 +71,10 @@ public class Matcher {
         shared.add("genderMe");
 
         Set<Region> myRegions = me.getRegion();
-        Set<Region> yourRegions = you.getRegion();
 
-        boolean isInRegion = false;
-        for (Region region : myRegions) {
-            if (yourRegions.contains(region)) {
-                isInRegion = true;
-                countMatches++;
-                break;
-            }
+        if (myRegions.contains(user.getUserRegion())) {
+            countMatches++;
+
         }
         shared.add("regionYou");
         shared.add("regionMe");
@@ -85,8 +86,8 @@ public class Matcher {
             countMatches++;
         }
         int myAge = birthDateToAgeConverter.calculateAge(meUser.getBirthDate());
+
         if (myAge >= Integer.parseInt(you.getMinAge()) && myAge <= Integer.parseInt(you.getMaxAge())) {
-            System.out.println("countMatches: " + countMatches);
             countMatches++;
         }
 
@@ -100,7 +101,19 @@ public class Matcher {
             percentage = ((float) countMatches / (float) shared.size()) * 100;
         }
 
+        UserDto sendBackUser = new UserDto(
+                user.getUserId(),
+                user.getUserName(),
+                user.getDescription(),
+                user.getUserFirstname(),
+                user.getUserLastName(),
+                user.getGender().toString(),
+                user.getBirthDate(),
+                user.getPreferences(),
+                user.getUserRegion()
+                );
+
         int intPercentage = Math.round(percentage);
-        return new Match(user, intPercentage); // cast to int works??
+        return new Match(sendBackUser, intPercentage, "success"); // cast to int works??
     }
 }

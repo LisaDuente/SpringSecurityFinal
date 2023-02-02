@@ -28,5 +28,6 @@ public class UpdateUserDto {
     private String[] hobbies;
     private String[] regions;
     private String preferedGender;
+    private String userRegion;
 
 }

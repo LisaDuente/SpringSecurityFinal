@@ -4,6 +4,7 @@ import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Dto.UpdatePreferenceDto;
 import com.workshop.Lisa.Dto.UpdateUserDto;
 import com.workshop.Lisa.Dto.UpdateUserInformationDto;
+import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.Utils.HobbyEnum;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,6 +65,9 @@ public class UserService {
         existingUser.setBirthDate(Date.valueOf(updateUserDto.getBirthDate()));
         existingUser.setGender(GenderEnum.valueOf(updateUserDto.getGender()));
 
+        Region userRegion = regionService.findRegionByName(updateUserDto.getUserRegion());
+        existingUser.setUserRegion(userRegion);
+
         return this.dao.save(existingUser);
     }
 
@@ -71,15 +76,26 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Could not find user with that id!"));
     }
 
-    public User getUserById(String userId){
+    public UserDto getUserById(String userId){
         long id = Long.parseLong(userId);
         User user = this.findById(id);
-        //there will be a better way but to lazy to write a new class
-        user.setUserPassword("");
-        user.setRoles("");
+
+            //there will be a better way but too lazy to write a new class
+        UserDto sendBackUser = new UserDto(
+                user.getUserId(),
+                user.getUserName(),
+                user.getDescription(),
+                user.getUserFirstname(),
+                user.getUserLastName(),
+                user.getGender().toString(),
+                user.getBirthDate(),
+                user.getPreferences(),
+                user.getUserRegion()
+        );
+
         //maybe add check if they are friends show contactInfo
         user.setContactInformation(new ContactInformation());
-        return user;
+        return sendBackUser;
     }
 
     public String updateUserPreference(UpdatePreferenceDto dto, String username){
@@ -122,6 +138,9 @@ public class UserService {
         existingUser.setUserPassword(new BCryptPasswordEncoder().encode(updateUserInformationDto.getUserPassword()));
         existingUser.setBirthDate(Date.valueOf(updateUserInformationDto.getBirthDate()));
         existingUser.setGender(GenderEnum.valueOf(updateUserInformationDto.getGender()));
+
+        Region userRegion = regionService.findRegionByName(updateUserInformationDto.getUserRegion());
+        existingUser.setUserRegion(userRegion);
 
         this.dao.save(existingUser);
 

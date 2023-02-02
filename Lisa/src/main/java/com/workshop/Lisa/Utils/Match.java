@@ -1,5 +1,6 @@
 package com.workshop.Lisa.Utils;
 
+import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Match {
-    private User user;
+    private UserDto user;
     private int matchPercentage;
+    private String message;
 
 }
