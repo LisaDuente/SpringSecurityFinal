@@ -1,6 +1,7 @@
 package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.UserDao;
+import com.workshop.Lisa.Dto.AuthRequestEmail;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.Entity.*;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +37,18 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(req.getUserName(), req.getUserPassword())
         );
         final UserDetails userDetails = jpaUDS.loadUserByUsername(req.getUserName());
+        if(userDetails != null){
+            return jwtU.generateToken(userDetails);
+        }
+        return "400";
+    }
+
+    public String generateTokenByEmail(AuthRequestEmail req){
+        User user = userDao.findByContactInformationUserEmail(req.getUserEmail()).orElseThrow(() -> new EntityNotFoundException("No user found!"));
+        manager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUserName(), req.getUserPassword())
+        );
+        final UserDetails userDetails = jpaUDS.loadUserByEmail(req.getUserEmail());
         if(userDetails != null){
             return jwtU.generateToken(userDetails);
         }

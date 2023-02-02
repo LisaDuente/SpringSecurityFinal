@@ -26,4 +26,12 @@ public class JpaUserDetailsService implements UserDetailsService {
                 .orElseThrow(()-> new UsernameNotFoundException("Username not found " + username));
 
     }
+
+    public UserDetails loadUserByEmail(String userMail) throws UsernameNotFoundException {
+        //check if username is a valid username, then convert it into a SecurityUser
+        return userRepo.findByContactInformationUserEmail(userMail)
+                .map(SecurityUser::new)
+                .orElseThrow(()-> new UsernameNotFoundException("Username not found " + userMail));
+
+    }
 }

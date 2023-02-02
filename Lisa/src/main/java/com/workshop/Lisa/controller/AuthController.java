@@ -1,5 +1,6 @@
 package com.workshop.Lisa.controller;
 
+import com.workshop.Lisa.Dto.AuthRequestEmail;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.service.AuthService;
@@ -17,6 +18,16 @@ public class AuthController {
     @PostMapping("/authUser")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
         String token = service.generateToken(request);
+        if(!token.equals("400")){
+            return ResponseEntity.ok(token);
+        }else{
+            return ResponseEntity.status(400).body("An error accured");
+        }
+    }
+
+    @PostMapping("/authUserEmail")
+    public ResponseEntity<String> authenticateByEmail(@RequestBody AuthRequestEmail request){
+        String token = service.generateTokenByEmail(request);
         if(!token.equals("400")){
             return ResponseEntity.ok(token);
         }else{
