@@ -29,6 +29,14 @@ public class UserController {
         return "Update was successful!";
     }
 
+    @GetMapping("/getUser")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String getUser(@RequestHeader("Authorization") String token){
+        Gson gson = new Gson();
+        String username = jwtHelper.extractUsername(token);
+        return gson.toJson(this.service.getUserById(this.service.findUserByUsername(username).getUserId().toString()));
+    }
+
     @GetMapping("/getUserById")
     @PreAuthorize("hasAnyAuthority('USER')")
     public String getUserById(@RequestBody String id){
