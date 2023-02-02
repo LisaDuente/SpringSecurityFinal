@@ -97,7 +97,7 @@ public class Matcher {
         //create MatchingObject
 
         float percentage = 0;
-        if(shared.size() != 0) {
+        if (shared.size() != 0) {
             percentage = ((float) countMatches / (float) shared.size()) * 100;
         }
 
