@@ -12,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class Match {
     private User user;
-    private double matchPercentage;
+    private int matchPercentage;
 
 }

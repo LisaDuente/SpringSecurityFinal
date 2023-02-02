@@ -4,11 +4,7 @@ import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.Preference;
 import com.workshop.Lisa.Entity.Region;
 import com.workshop.Lisa.Entity.User;
-import com.workshop.Lisa.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
@@ -24,8 +20,6 @@ import java.util.Set;
 @Service
 public class Matcher {
 
-    //some problems here
-    private UserService userService;
 
     public ArrayList<Match> matchWithAllUsers(Preference mePrefs, User meUser, List<User> allUsers) {
 
@@ -33,6 +27,10 @@ public class Matcher {
         for (User user : allUsers) {
             allMatches.add(matchUsers(mePrefs, user.getPreferences(), user, meUser));
         }
+        //ArrayList<Match> sorted = (ArrayList<Match>) allMatches.stream()
+         //       .filter((match -> match.getMatchPercentage() > 0))
+          //      .collect(Collectors.toList());
+        allMatches.sort((a,b) -> (int) (b.getMatchPercentage() - (int) a.getMatchPercentage()));
         return allMatches;
     }
 
@@ -89,27 +87,22 @@ public class Matcher {
             countMatches++;
         }
         int myAge = birthDateToAgeConverter.calculateAge(meUser.getBirthDate());
-        System.out.println("myAge: " + myAge);
-        System.out.println("you.getMinAge(): " + you.getMinAge());
-        System.out.println("you.getMaxAge(): " + you.getMaxAge());
         if (myAge >= Integer.parseInt(you.getMinAge()) && myAge <= Integer.parseInt(you.getMaxAge())) {
             System.out.println("countMatches: " + countMatches);
             countMatches++;
-            System.out.println("inrange");
         }
 
         shared.add("ageYou");
         shared.add("ageMe");
 
         //create MatchingObject
-        System.out.println("counter: " + countMatches);
-        System.out.println("sharedSet: " + shared.size());
-        double percentage = (countMatches / shared.size()) * 100;
 
-        System.out.println("percentage: " + percentage + " %");
+        float percentage = 0;
+        if(shared.size() != 0) {
+            percentage = ((float) countMatches / (float) shared.size()) * 100;
+        }
 
-        System.out.println("Match object: " + new Match(user, percentage));
-
-        return new Match(user, percentage);
+        int intPercentage = Math.round(percentage);
+        return new Match(user, intPercentage); // cast to int works??
     }
 }
