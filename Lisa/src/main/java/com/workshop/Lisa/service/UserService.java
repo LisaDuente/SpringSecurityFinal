@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -147,6 +148,17 @@ public class UserService {
 
         return new HashSet();
 
+    }
+
+    public List<User> getAllUsers(){
+        List<User> allUsers = ((List<User>) this.dao.findAll());
+        return allUsers;
+    }
+
+    public List<Match> getMatches(String username){
+        User meUser = this.findUserByUsername(username);
+        List<User> allUsers = this.getAllUsers();
+        return matcher.matchWithAllUsers(meUser.getPreferences(),meUser,allUsers);
     }
 
    //fix a method for updatePreferences and update UserInformation to abstract those two things

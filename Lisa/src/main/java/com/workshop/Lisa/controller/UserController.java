@@ -6,6 +6,7 @@ import com.workshop.Lisa.Dto.UpdateUserDto;
 import com.workshop.Lisa.Dto.UpdateUserInformationDto;
 import com.workshop.Lisa.config.JwtUtils;
 import com.workshop.Lisa.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +57,13 @@ public class UserController {
         return "Update was successful!";
     }
 
+    @GetMapping("/getMatches")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String getMatches(@RequestHeader("AUthorization") String token){
+        Gson gson = new Gson();
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return gson.toJson(this.service.getMatches(username));
+    }
 
 }

@@ -8,6 +8,8 @@ import com.workshop.Lisa.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
@@ -18,7 +20,10 @@ import java.util.Set;
 
 @NoArgsConstructor
 //@RequiredArgsConstructor
+@AllArgsConstructor
+@Service
 public class Matcher {
+
     //some problems here
     private UserService userService;
 

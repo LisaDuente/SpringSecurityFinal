@@ -35,4 +35,9 @@ public class PreferenceService {
         return this.dao.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("could not find user"));
     }
+
+    public List<Region> getAllRegions(){
+        return this.regionService.getAllRegions();
+
+    }
 }
