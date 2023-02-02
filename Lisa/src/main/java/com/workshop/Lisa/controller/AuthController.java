@@ -21,7 +21,7 @@ public class AuthController {
         if(!token.equals("400")){
             return ResponseEntity.ok(token);
         }else{
-            return ResponseEntity.status(400).body("An error accured");
+            return ResponseEntity.status(400).body("An error occurred");
         }
     }
 
@@ -31,7 +31,7 @@ public class AuthController {
         if(!token.equals("400")){
             return ResponseEntity.ok(token);
         }else{
-            return ResponseEntity.status(400).body("An error accured");
+            return ResponseEntity.status(400).body("An error occurred");
         }
     }
 

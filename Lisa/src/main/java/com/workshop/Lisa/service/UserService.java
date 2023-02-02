@@ -7,7 +7,6 @@ import com.workshop.Lisa.Dto.UpdateUserInformationDto;
 import com.workshop.Lisa.Dto.UserDto;
 import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.GenderEnum;
-import com.workshop.Lisa.Utils.HobbyEnum;
 import com.workshop.Lisa.Utils.Match;
 import com.workshop.Lisa.Utils.Matcher;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +57,6 @@ public class UserService {
         existingUser.setContactInformation(ci);
         existingUser.setUserFirstname(updateUserDto.getUserFirstname());
         existingUser.setUserLastName(updateUserDto.getUserLastName());
-        existingUser.setUserPassword(new BCryptPasswordEncoder().encode(updateUserDto.getUserPassword()));
         existingUser.setBirthDate(updateUserDto.getBirthDate());
         existingUser.setGender(GenderEnum.valueOf(updateUserDto.getGender()));
 
@@ -89,6 +84,7 @@ public class UserService {
                 user.getUserLastName(),
                 user.getGender().toString(),
                 user.getBirthDate(),
+                user.getContactInformation(),
                 user.getPreferences(),
                 user.getUserRegion()
         );
@@ -150,7 +146,7 @@ public class UserService {
         if(type.equals("HOBBY")){
             HashSet<Hobby> prefSet = new HashSet<>();
             for(String strHobby : array) {
-                Hobby hobby = hobbyService.findByHobby(HobbyEnum.valueOf(strHobby));
+                Hobby hobby = hobbyService.findByHobby(strHobby);
                 prefSet.add(hobby);
             }
             return prefSet;

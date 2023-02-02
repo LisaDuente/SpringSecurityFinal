@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface RegionDao extends CrudRepository<Region, Long> {
 
-    Optional<Region> findByRegionName(String regionName);
+    Optional<Region> findByName(String regionName);
 }

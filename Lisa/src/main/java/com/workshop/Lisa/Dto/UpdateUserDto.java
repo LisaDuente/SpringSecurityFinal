@@ -12,12 +12,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdateUserDto {
 
-    private String userPassword;
     private String userEmail;
     private String userFirstname;
     private String userLastName;
     private String gender;
     private String birthDate;
+    private String userRegion;
     private String facebook;
     private String instagram;
     private String discord;
@@ -28,6 +28,5 @@ public class UpdateUserDto {
     private String[] hobbies;
     private String[] regions;
     private String preferedGender;
-    private String userRegion;
 
 }

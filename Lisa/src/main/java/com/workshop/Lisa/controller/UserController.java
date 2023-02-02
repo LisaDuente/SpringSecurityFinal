@@ -27,7 +27,7 @@ public class UserController {
         String username = jwtHelper.extractUsername(token);
         this.service.updateUser(updateUserDto, username);
 
-        return "Update was successful!";
+        return "{\"status\": \"Update was successful!\"}";
     }
 
     @GetMapping("/getUser")
@@ -68,7 +68,7 @@ public class UserController {
 
     @GetMapping("/getMatches")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public String getMatches(@RequestHeader("AUthorization") String token){
+    public String getMatches(@RequestHeader("Authorization") String token){
         Gson gson = new Gson();
         token = token.substring(7);
         String username = jwtHelper.extractUsername(token);

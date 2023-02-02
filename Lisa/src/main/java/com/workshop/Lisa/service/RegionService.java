@@ -14,7 +14,7 @@ public class RegionService {
     private final RegionDao regionDao;
 
     public Region findRegionByName(String regionName){
-        return regionDao.findByRegionName(regionName)
+        return regionDao.findByName(regionName)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into Region"));
     }
 

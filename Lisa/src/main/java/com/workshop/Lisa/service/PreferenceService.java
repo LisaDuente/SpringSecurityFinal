@@ -1,18 +1,14 @@
 package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.PreferenceDao;
-import com.workshop.Lisa.Dto.PreferenceDto;
 import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.Preference;
 import com.workshop.Lisa.Entity.Region;
-import com.workshop.Lisa.Utils.HobbyEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

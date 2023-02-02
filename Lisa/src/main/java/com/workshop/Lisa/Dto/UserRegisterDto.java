@@ -16,5 +16,6 @@ public class UserRegisterDto {
     private String userLastName;
     private String gender;
     private String birthDate;
+    private String region;
     //and more!
 }

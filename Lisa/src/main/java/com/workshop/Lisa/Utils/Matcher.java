@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,11 +82,11 @@ public class Matcher {
 
         //compute how old user is milliseconds from user - milliseconds from now , convert milliseconds to year
         BirthDateToAgeConverter birthDateToAgeConverter = new BirthDateToAgeConverter();
-        int userAge = birthDateToAgeConverter.calculateAge(user.getBirthDate());
+        int userAge = birthDateToAgeConverter.calculateAge(Date.valueOf(user.getBirthDate()));
         if (userAge > Integer.parseInt(me.getMinAge()) && userAge < Integer.parseInt(me.getMaxAge())) {
             countMatches++;
         }
-        int myAge = birthDateToAgeConverter.calculateAge(meUser.getBirthDate());
+        int myAge = birthDateToAgeConverter.calculateAge(Date.valueOf(meUser.getBirthDate()));
 
         if (myAge >= Integer.parseInt(you.getMinAge()) && myAge <= Integer.parseInt(you.getMaxAge())) {
             countMatches++;
@@ -109,6 +110,7 @@ public class Matcher {
                 user.getUserLastName(),
                 user.getGender().toString(),
                 user.getBirthDate(),
+                user.getContactInformation(),
                 user.getPreferences(),
                 user.getUserRegion()
                 );

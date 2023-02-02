@@ -22,7 +22,8 @@ public class UserDto {
     private String userFirstname;
     private String userLastName;
     private String userGender;
-    private Date birthDate;
+    private String birthDate;
+    private ContactInformation contactInformation;
     private Preference preferences;
     private Region userRegion;
 }

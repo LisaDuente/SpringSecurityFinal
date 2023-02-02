@@ -24,14 +24,14 @@ public class Preference {
     @JoinTable(
             name = "regionUser",
             joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "regionId")
+            inverseJoinColumns = @JoinColumn(name = "id")
     )
     private Set<Region> region;
     @ManyToMany
     @JoinTable(
             name = "hobbyUser",
             joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "hobbyId")
+            inverseJoinColumns = @JoinColumn(name = "id")
     )
     private Set<Hobby> hobbies;
 }

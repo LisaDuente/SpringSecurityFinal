@@ -2,7 +2,6 @@ package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.HobbyDao;
 import com.workshop.Lisa.Entity.Hobby;
-import com.workshop.Lisa.Utils.HobbyEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,8 @@ public class HobbyService {
 
     private final HobbyDao hobbyDao;
 
-    public Hobby findByHobby(HobbyEnum hobby){
-        return hobbyDao.findByHobby(hobby)
+    public Hobby findByHobby(String hobby){
+        return hobbyDao.findByName(hobby)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into Hobby"));
     }
 

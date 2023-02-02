@@ -1,5 +1,6 @@
 package com.workshop.Lisa.service;
 
+import com.workshop.Lisa.Dao.RegionDao;
 import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Dto.AuthRequestEmail;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
@@ -31,6 +32,7 @@ public class AuthService {
     private final PreferenceService preferenceService;
     private final JwtUtils jwtU;
     private final UserDao userDao;
+    private final RegionDao regionDao;
 
     public String generateToken(AuthenticationRequest req){
         manager.authenticate(
@@ -69,7 +71,7 @@ public class AuthService {
 
         Set<Hobby> hobbies= new HashSet<Hobby>();
         Set<Region> regions= new HashSet<Region>();
-        Preference pref = new Preference(contactInfo.getUserID(), "18", "100","NO_ANSWER", regions ,hobbies);
+        Preference pref = new Preference(contactInfo.getUserID(), "18", "100", userRegisterDto.getGender(), regions ,hobbies);
         this.preferenceService.createPreference(pref);
 
         User user = new User(
@@ -84,7 +86,7 @@ public class AuthService {
                 userRegisterDto.getBirthDate(),
                 contactInfo,
                 pref,
-                null);
+                regionDao.findByName(userRegisterDto.getRegion()).orElseThrow(() -> new EntityNotFoundException("Could not find region")));
 
         //create new user
         System.out.println("user: "+user);
