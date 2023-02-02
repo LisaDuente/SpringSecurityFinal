@@ -36,23 +36,23 @@ public class Matcher {
         return allMatches;
     }
 
-    public Match matchUsers (Preference me, Preference you){
+    public Match matchUsers(Preference me, Preference you, User user, User meUser) {
         //create userSharedPreferenceSet
         HashSet<String> shared = new HashSet<>();
         int countMatches = 0;
-        //jämör users
+        //jämför users
         Set<Hobby> myHobbies = me.getHobbies();
         Set<Hobby> yourHobbies = you.getHobbies();
 
-        for(Hobby hobby : myHobbies){
-            if(yourHobbies.contains(hobby)){
+        for (Hobby hobby : myHobbies) {
+            if (yourHobbies.contains(hobby)) {
                 countMatches++;
             }
             shared.add(hobby.toString());
         }
 
-        for(Hobby hobby : yourHobbies){
-            if(myHobbies.contains(hobby)){
+        for (Hobby hobby : yourHobbies) {
+            if (myHobbies.contains(hobby)) {
                 countMatches++;
             }
             shared.add(hobby.toString());
@@ -72,17 +72,15 @@ public class Matcher {
         Set<Region> yourRegions = you.getRegion();
 
         boolean isInRegion = false;
-        for(Region region : myRegions){
-            if(yourRegions.contains(region)){
+        for (Region region : myRegions) {
+            if (yourRegions.contains(region)) {
                 isInRegion = true;
                 countMatches++;
                 break;
             }
         }
-        //User user = userService.findById(you.getUserId());
-        //compute how old user is milliseconds from user - milliseconds from now , convert milliseconds to year
-        //int userAge = user.getBirthDate().
-        //boolean isInAgeRange = me.getMinAge() < user.
+        shared.add("regionYou");
+        shared.add("regionMe");
 
         //compute how old user is milliseconds from user - milliseconds from now , convert milliseconds to year
         BirthDateToAgeConverter birthDateToAgeConverter = new BirthDateToAgeConverter();
