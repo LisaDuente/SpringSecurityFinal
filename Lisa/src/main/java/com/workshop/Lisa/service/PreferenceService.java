@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -22,44 +23,9 @@ public class PreferenceService {
 
     private final HobbyService hobbyService;
 
-    //private final UserService userService;
-
-//    public String createPreference(PreferenceDto preferenceDto, String userName) {
-//
-//        Set<Region> region = new HashSet<Region>();
-//        for (String regionString : preferenceDto.getRegions()) {
-//            try {
-//                region.add(regionService.findRegionByName(regionString));
-//            } catch (Exception e) {
-//                return "Error in Regions!";
-//            }
-//        }
-//
-//        Set<Hobby> hobby = new HashSet<Hobby>();
-//        for(String hobbyString : preferenceDto.getHobbies()) {
-//            HobbyEnum hobbyEnum = HobbyEnum.valueOf(hobbyString);
-//            try {
-//                hobby.add(hobbyService.findByHobby(hobbyEnum));
-//            } catch (Exception e) {
-//                return "Error in Hobbies!";
-//            }
-//        }
-//
-//        long userId = this.userService.findUserByUsername(userName).getUserId();
-//
-//
-//        Preference preference = new Preference(
-//                userId,
-//                preferenceDto.getMinAge(),
-//                preferenceDto.getMaxAge(),
-//                preferenceDto.getGender(),
-//                region,
-//                hobby
-//        );
-//
-//        this.dao.save(preference);
-//        return "Preferences successfully set!";
-//    }
+    public List<Hobby> getAllHobbies(){
+        return this.hobbyService.getAllHobbies();
+    }
 
     public void createPreference(Preference pref){
         this.dao.save(pref);

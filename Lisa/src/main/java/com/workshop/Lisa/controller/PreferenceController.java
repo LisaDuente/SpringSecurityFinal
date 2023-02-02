@@ -1,5 +1,6 @@
 package com.workshop.Lisa.controller;
 
+import com.google.gson.Gson;
 import com.workshop.Lisa.Dto.PreferenceDto;
 import com.workshop.Lisa.config.JwtUtils;
 import com.workshop.Lisa.service.PreferenceService;

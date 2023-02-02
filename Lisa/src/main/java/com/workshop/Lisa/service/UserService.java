@@ -7,6 +7,8 @@ import com.workshop.Lisa.Dto.UpdateUserInformationDto;
 import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.Utils.HobbyEnum;
+import com.workshop.Lisa.Utils.Match;
+import com.workshop.Lisa.Utils.Matcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class UserService {
     private final PreferenceService preferenceService;
     private final HobbyService hobbyService;
     private final RegionService regionService;
+    private final Matcher matcher;
 
     public User findUserByUsername(String userName){
         return this.dao.findByUserName(userName).orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));

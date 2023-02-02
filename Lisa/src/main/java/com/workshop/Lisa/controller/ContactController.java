@@ -2,7 +2,6 @@ package com.workshop.Lisa.controller;
 
 import com.google.gson.Gson;
 import com.workshop.Lisa.Dto.ContactRequestDto;
-import com.workshop.Lisa.Dto.StatusUpdateDto;
 import com.workshop.Lisa.config.JwtUtils;
 import com.workshop.Lisa.service.ContactService;
 import lombok.RequiredArgsConstructor;

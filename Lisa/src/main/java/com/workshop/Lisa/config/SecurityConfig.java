@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/**/user/**").hasAuthority("USER")
                 .antMatchers("/**/auth/**").permitAll()
+                .antMatchers("/**/preferences/getAllHobbies", "/**/preferences/getAllRegions").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

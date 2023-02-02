@@ -18,4 +18,8 @@ public class HobbyService {
         return hobbyDao.findByHobby(hobby)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into Hobby"));
     }
+
+    public List<Hobby> getAllHobbies(){
+        return (List<Hobby>) this.hobbyDao.findAll();
+    }
 }

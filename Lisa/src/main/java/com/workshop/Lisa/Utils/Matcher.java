@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -18,7 +20,16 @@ import java.util.Set;
 //@RequiredArgsConstructor
 public class Matcher {
     //some problems here
-    //private final UserService userService;
+    private UserService userService;
+
+    public ArrayList<Match> matchWithAllUsers(Preference mePrefs, User meUser, List<User> allUsers) {
+
+        ArrayList<Match> allMatches = new ArrayList<>();
+        for (User user : allUsers) {
+            allMatches.add(matchUsers(mePrefs, user.getPreferences(), user, meUser));
+        }
+        return allMatches;
+    }
 
     public Match matchUsers (Preference me, Preference you){
         //create userSharedPreferenceSet
@@ -41,13 +52,16 @@ public class Matcher {
             }
             shared.add(hobby.toString());
         }
-        //check if age is in my agespan
-        //check if my age is in you agespan
-        //if both is false add two in set, if both is true set one in set and increase matchCounter
+
         //same for gender
 
         //then look at region same as in hobbies
         boolean isPreferedGender = me.getGender().equals(you.getGender());
+        if (isPreferedGender) {
+            countMatches++;
+        }
+        shared.add("genderYou");
+        shared.add("genderMe");
 
         Set<Region> myRegions = me.getRegion();
         Set<Region> yourRegions = you.getRegion();
@@ -56,6 +70,7 @@ public class Matcher {
         for(Region region : myRegions){
             if(yourRegions.contains(region)){
                 isInRegion = true;
+                countMatches++;
                 break;
             }
         }
@@ -64,39 +79,34 @@ public class Matcher {
         //int userAge = user.getBirthDate().
         //boolean isInAgeRange = me.getMinAge() < user.
 
-        //match age
-        //getUser from prefId
-        //compute userAge from birthDate
-        //get minAge and MaxAge from preference, match if userAge > min && userAge < max
-        //if so, increase matchCounter
+        //compute how old user is milliseconds from user - milliseconds from now , convert milliseconds to year
+        BirthDateToAgeConverter birthDateToAgeConverter = new BirthDateToAgeConverter();
+        int userAge = birthDateToAgeConverter.calculateAge(user.getBirthDate());
+        if (userAge > Integer.parseInt(me.getMinAge()) && userAge < Integer.parseInt(me.getMaxAge())) {
+            countMatches++;
+        }
+        int myAge = birthDateToAgeConverter.calculateAge(meUser.getBirthDate());
+        System.out.println("myAge: " + myAge);
+        System.out.println("you.getMinAge(): " + you.getMinAge());
+        System.out.println("you.getMaxAge(): " + you.getMaxAge());
+        if (myAge >= Integer.parseInt(you.getMinAge()) && myAge <= Integer.parseInt(you.getMaxAge())) {
+            System.out.println("countMatches: " + countMatches);
+            countMatches++;
+            System.out.println("inrange");
+        }
+
+        shared.add("ageYou");
+        shared.add("ageMe");
 
         //create MatchingObject
+        System.out.println("counter: " + countMatches);
+        System.out.println("sharedSet: " + shared.size());
+        double percentage = (countMatches / shared.size()) * 100;
 
-        //--------------------
-        /* TOROS: how to convert date object milliseconds to current age in java
-        Here's a simple example of how to convert a date object in milliseconds to the current age in Java:
+        System.out.println("percentage: " + percentage + " %");
 
-java
-Copy code
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.Date;
+        System.out.println("Match object: " + new Match(user, percentage));
 
-public class AgeCalculator {
-  public static void main(String[] args) {
-    long millis = System.currentTimeMillis();
-    Date birthDate = new Date(millis);
-    LocalDate now = LocalDate.now();
-    LocalDate birthLocalDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    Period age = Period.between(birthLocalDate, now);
-    System.out.println("Age: " + age.getYears() + " years, " + age.getMonths() + " months, " + age.getDays() + " days");
-  }
-}
-This code converts the current time in milliseconds to a Date object, and then converts that Date object to a LocalDate object. Then, it uses the Period.between() method to calculate the difference between the birth date and the current date, resulting in the age in years, months, and days.
-         */
-        //--------------------
-
-        return new Match();
+        return new Match(user, percentage);
     }
 }
