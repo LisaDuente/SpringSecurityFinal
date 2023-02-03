@@ -63,6 +63,8 @@ public class UserService {
         Region userRegion = regionService.findRegionByName(updateUserDto.getUserRegion());
         existingUser.setUserRegion(userRegion);
 
+        existingUser.setDescription(updateUserDto.getDescription());
+
         return this.dao.save(existingUser);
     }
 
