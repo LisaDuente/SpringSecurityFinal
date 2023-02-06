@@ -14,9 +14,9 @@ public class PreferenceDto {
 
     private String gender;
 
-    private String maxAge;
+    private int maxAge;
 
-    private String minAge;
+    private int minAge;
 
     private String[] regions;
 

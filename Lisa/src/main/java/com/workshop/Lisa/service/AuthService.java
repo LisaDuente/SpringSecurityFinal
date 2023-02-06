@@ -62,11 +62,11 @@ public class AuthService {
 
         Set<Hobby> hobbies= new HashSet<Hobby>();
         Set<Region> regions= new HashSet<Region>();
-        Preference pref = new Preference(contactInfo.getUserID(), "18", "100", "Samtliga", regions ,hobbies);
+        Preference pref = new Preference(contactInfo.getUserId(), 18, 100, "Samtliga", regions ,hobbies);
         this.preferenceService.createPreference(pref);
 
         User user = new User(
-                contactInfo.getUserID(),
+                contactInfo.getUserId(),
                 userRegisterDto.getUserName(),
                 "",
                 userRegisterDto.getUserFirstname(),

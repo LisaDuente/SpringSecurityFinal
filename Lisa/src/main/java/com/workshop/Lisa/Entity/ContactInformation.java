@@ -16,12 +16,12 @@ public class ContactInformation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userID;
+    private Long userId;
     @Column(unique = true)
-    private String userEmail;
+    private String email;
     private String discord;
     private String snapchat;
     private String instagram;
     private String facebook;
-    private String userPhoneNumber;
+    private String phoneNumber;
 }

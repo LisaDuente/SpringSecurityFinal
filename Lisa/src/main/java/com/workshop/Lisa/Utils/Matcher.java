@@ -71,9 +71,9 @@ public class Matcher {
         shared.add("genderYou");
         shared.add("genderMe");
 
-        Set<Region> myRegions = me.getRegion();
+        Set<Region> myRegions = me.getRegions();
 
-        if (myRegions.contains(user.getUserRegion())) {
+        if (myRegions.contains(user.getRegion())) {
             countMatches++;
 
         }
@@ -82,13 +82,13 @@ public class Matcher {
 
         //compute how old user is milliseconds from user - milliseconds from now , convert milliseconds to year
         BirthDateToAgeConverter birthDateToAgeConverter = new BirthDateToAgeConverter();
-        int userAge = birthDateToAgeConverter.calculateAge(Date.valueOf(user.getBirthDate()));
-        if (userAge > Integer.parseInt(me.getMinAge()) && userAge < Integer.parseInt(me.getMaxAge())) {
+        int userAge = birthDateToAgeConverter.calculateAge(Date.valueOf(user.getBirthdate()));
+        if (userAge > me.getMinAge() && userAge < me.getMaxAge()) {
             countMatches++;
         }
-        int myAge = birthDateToAgeConverter.calculateAge(Date.valueOf(meUser.getBirthDate()));
+        int myAge = birthDateToAgeConverter.calculateAge(Date.valueOf(meUser.getBirthdate()));
 
-        if (myAge >= Integer.parseInt(you.getMinAge()) && myAge <= Integer.parseInt(you.getMaxAge())) {
+        if (myAge >= you.getMinAge() && myAge <= you.getMaxAge()) {
             countMatches++;
         }
 
@@ -104,15 +104,15 @@ public class Matcher {
 
         UserDto sendBackUser = new UserDto(
                 user.getUserId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getDescription(),
-                user.getUserFirstname(),
-                user.getUserLastName(),
+                user.getFirstName(),
+                user.getSurname(),
                 user.getGender().toString(),
-                user.getBirthDate(),
+                user.getBirthdate(),
                 user.getContactInformation(),
                 user.getPreferences(),
-                user.getUserRegion()
+                user.getRegion()
                 );
 
         int intPercentage = Math.round(percentage);

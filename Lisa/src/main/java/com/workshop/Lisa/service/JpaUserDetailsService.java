@@ -22,7 +22,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException{
-        return userRepo.findByUserNameOrContactInformation_UserEmail(usernameOrEmail, usernameOrEmail)
+        return userRepo.findByUsernameOrContactInformation_email(usernameOrEmail, usernameOrEmail)
                 .map(SecurityUser::new)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Username not found" + usernameOrEmail));

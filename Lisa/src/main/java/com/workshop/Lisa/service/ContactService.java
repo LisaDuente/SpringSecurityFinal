@@ -63,18 +63,18 @@ public class ContactService {
                 ContactInformation contactInfo = contactInformationService.getContactInformation(tempUser.getUserId());
                 userSet.add(new UserContactInfoDto(
                         id,
-                        tempUser.getUserName(),
-                        tempUser.getUserFirstname(),
-                        tempUser.getUserLastName(),
+                        tempUser.getUsername(),
+                        tempUser.getFirstName(),
+                        tempUser.getSurname(),
                         contactInfo,
                         status));
             }else{
                 ContactInformation contactInfo = new ContactInformation();
                 userSet.add(new UserContactInfoDto(
                         id,
-                        tempUser.getUserName(),
-                        tempUser.getUserFirstname(),
-                        tempUser.getUserLastName(),
+                        tempUser.getUsername(),
+                        tempUser.getFirstName(),
+                        tempUser.getSurname(),
                         contactInfo,
                         status));
             }

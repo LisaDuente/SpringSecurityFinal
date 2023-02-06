@@ -17,8 +17,8 @@ public class Preference {
 
     @Id
     private long userId;
-    private String minAge;
-    private String maxAge;
+    private int minAge;
+    private int maxAge;
     private String gender;
     @ManyToMany
     @JoinTable(
@@ -26,7 +26,7 @@ public class Preference {
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "id")
     )
-    private Set<Region> region;
+    private Set<Region> regions;
     @ManyToMany
     @JoinTable(
             name = "hobbyUser",
