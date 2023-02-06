@@ -122,6 +122,9 @@ public class ContactService {
         long userIdTwo = Long.parseLong(contactRequestDto.getFriendID());
         Contact contact = new Contact(userIdOne, userIdTwo, ContactEnum.PENDING);
 
+        if(userIdOne == userIdTwo){
+            return "You can not add yourself!";
+        }
         Contact contactCheckOne = contactDao.findContactByUserOneAndUserTwo(userIdOne, userIdTwo);
         Contact contactCheckTwo = contactDao.findContactByUserOneAndUserTwo(userIdTwo, userIdOne);
 
