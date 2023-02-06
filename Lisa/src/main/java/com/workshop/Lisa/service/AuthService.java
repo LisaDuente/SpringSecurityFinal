@@ -4,6 +4,7 @@ import com.workshop.Lisa.Dao.RegionDao;
 import com.workshop.Lisa.Dao.UserDao;
 import com.workshop.Lisa.Dto.AuthRequestEmail;
 import com.workshop.Lisa.Dto.AuthenticationRequest;
+import com.workshop.Lisa.Dto.LoginDto;
 import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.DateConverter;
@@ -12,6 +13,7 @@ import com.workshop.Lisa.config.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,28 +36,17 @@ public class AuthService {
     private final UserDao userDao;
     private final RegionDao regionDao;
 
-    public String generateToken(AuthenticationRequest req){
-        manager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getUserName(), req.getUserPassword())
-        );
-        final UserDetails userDetails = jpaUDS.loadUserByUsername(req.getUserName());
+    public String generateToken(LoginDto loginDto){
+        manager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+
+        final UserDetails userDetails = jpaUDS.loadUserByUsername(loginDto.getUsernameOrEmail());
         if(userDetails != null){
             return jwtU.generateToken(userDetails);
         }
         return "400";
     }
 
-    public String generateTokenByEmail(AuthRequestEmail req){
-        User user = userDao.findByContactInformationUserEmail(req.getUserEmail()).orElseThrow(() -> new EntityNotFoundException("No user found!"));
-        manager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUserName(), req.getUserPassword())
-        );
-        final UserDetails userDetails = jpaUDS.loadUserByEmail(req.getUserEmail());
-        if(userDetails != null){
-            return jwtU.generateToken(userDetails);
-        }
-        return "400";
-    }
 
     public String registerAndLogin(UserRegisterDto userRegisterDto) {
         String password = new BCryptPasswordEncoder().encode(userRegisterDto.getUserPassword());
@@ -97,7 +88,7 @@ public class AuthService {
             return error.getMessage();
            // return "Användarnamnet eller emejl finns redan!";
         }
-        return this.generateToken(new AuthenticationRequest(userRegisterDto.getUserName(), userRegisterDto.getUserPassword()));
+        return this.generateToken(new LoginDto(userRegisterDto.getUserName(), userRegisterDto.getUserPassword()));
     }
 
 }

@@ -103,15 +103,18 @@ public class ContactService {
 
         long userId = this.userService.findUserByUsername(username).getUserId();
         Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId,Long.parseLong(id));
-        if(contact == null) {
-            return "No friend request found";
+        Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo(Long.parseLong(id), userId);
+        if(contact == null && contact2 == null) {
+            return "No relationship/contact status found";
         }
-        if (contact.getStatus() == ContactEnum.BLOCKED) {
+        if(contact == null){
+            contactDao.delete(contact2);
+        }
+        if(contact2 == null){
             contactDao.delete(contact);
-            return "Unblock successful";
-        } else {
-            return "Cannot unblock user who is not blocked";
         }
+        return "successfully updated request";
+
     }
 
     public String createFriendRequest(String username, ContactRequestDto contactRequestDto) {

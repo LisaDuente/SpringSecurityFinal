@@ -41,6 +41,22 @@ public class ContactController {
         return service.updateStatus(username, userId, "FRIENDS");
     }
 
+    @DeleteMapping("/rejectFriendRequest")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String rejectRequest(@RequestHeader("Authorization") String token, @RequestBody String userID){
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return this.service.deleteEntry(username, userID);
+    }
+
+    @DeleteMapping("/unfriendUser")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String unfriendUser(@RequestHeader("Authorization") String token, @RequestBody String userID){
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return this.service.deleteEntry(username, userID);
+    }
+
     @DeleteMapping("/unblock")
     @PreAuthorize("hasAnyAuthority('USER')")
     public String unblockUser(@RequestHeader("Authorization") String token, @RequestBody String id) {
