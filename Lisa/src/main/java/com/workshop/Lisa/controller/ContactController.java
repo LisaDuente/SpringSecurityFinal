@@ -62,7 +62,7 @@ public class ContactController {
     public String unblockUser(@RequestHeader("Authorization") String token, @RequestBody String id) {
         token = token.substring(7);
         String username = jwtHelper.extractUsername(token);
-        return service.deleteEntry(username, id);
+        return this.service.deleteEntry(username, id);
     }
 
     @PostMapping("/sendFriendRequest")
