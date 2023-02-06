@@ -39,9 +39,9 @@ public class UserController {
         return gson.toJson(this.service.getUserById(this.service.findUserByUsername(username).getUserId().toString()));
     }
 
-    @GetMapping("/getUserById")
+    @GetMapping("/getUserById/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public String getUserById(@RequestBody String id){
+    public String getUserById(@PathVariable String id){
         Gson gson = new Gson();
         return gson.toJson(this.service.getUserById(id));
     }
