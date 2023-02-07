@@ -1,5 +1,6 @@
 package com.workshop.Lisa.service;
 
+import com.google.gson.Gson;
 import com.workshop.Lisa.Dao.ContactDao;
 import com.workshop.Lisa.Dto.ContactRequestDto;
 import com.workshop.Lisa.Dto.StatusUpdateDto;
@@ -146,6 +147,8 @@ public class ContactService {
     }
 
     public String getFriendStatus(String username, String userIdTwo){
+        Gson gson = new Gson();
+
         long userIdOne = this.userService.findUserByUsername(username).getUserId();
         Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userIdOne, Long.parseLong(userIdTwo));
         //do we need a check on the second contact?
@@ -155,9 +158,9 @@ public class ContactService {
 //            return contact.getStatus().toString();
 //        }
         if(contact != null){
-            return contact.getStatus().toString();
+            return gson.toJson(contact.getStatus());
         }
 
-        return "NO STATUS FOUND";
+        return gson.toJson("NO STATUS FOUND");
     }
 }

@@ -25,7 +25,7 @@ public class JpaUserDetailsService implements UserDetailsService {
         return userRepo.findByUsernameOrContactInformation_email(usernameOrEmail, usernameOrEmail)
                 .map(SecurityUser::new)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Username not found" + usernameOrEmail));
+                        new EntityNotFoundException("Username not found " + usernameOrEmail));
 
     }
 
