@@ -132,12 +132,15 @@ public class ContactService {
             contactDao.save(contact);
             return "Friend request sent";
         }
-        else if(contactCheckOne == null && contactCheckTwo.getStatus().equals(ContactEnum.PENDING)) {
-            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
-            contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
-            return "You are now friends!";
+        else if(contactCheckTwo == null) {
+            return "friend request already sent";
         }
-        else if(contactCheckTwo == null && contactCheckOne.getStatus().equals(ContactEnum.PENDING)){
+//        else if(contactCheckOne == null){
+//            contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.PENDING));
+//            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.PENDING));
+//            return "friend request sent";
+//        }
+        else if(contactCheckTwo.getStatus().equals(ContactEnum.PENDING) && contactCheckOne == null){
             contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
             contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
             return "You are now friends!";
