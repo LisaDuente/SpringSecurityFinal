@@ -42,23 +42,24 @@ public class Matcher {
         //jämför users
 
         Set<Hobby> myHobbies = me.getHobbies();
-        if(myHobbies.isEmpty()){ return new Match(new UserDto(), 0, "Please enter preferences");}
-
         Set<Hobby> yourHobbies = you.getHobbies();
-        if(myHobbies.isEmpty()){ return new Match(new UserDto(), 0, "No preferences found at user");}
 
-        for (Hobby hobby : myHobbies) {
-            if (yourHobbies.contains(hobby)) {
-                countMatches++;
+        if(!myHobbies.isEmpty()){
+            for (Hobby hobby : myHobbies) {
+                if (yourHobbies.contains(hobby)) {
+                    countMatches++;
+                }
+                shared.add(hobby.toString());
             }
-            shared.add(hobby.toString());
         }
 
-        for (Hobby hobby : yourHobbies) {
-            if (myHobbies.contains(hobby)) {
-                countMatches++;
+        if(!myHobbies.isEmpty()){
+            for (Hobby hobby : yourHobbies) {
+                if (myHobbies.contains(hobby)) {
+                    countMatches++;
+                }
+                shared.add(hobby.toString());
             }
-            shared.add(hobby.toString());
         }
 
         //same for gender
