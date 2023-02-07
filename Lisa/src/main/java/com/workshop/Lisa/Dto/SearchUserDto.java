@@ -14,6 +14,6 @@ public class SearchUserDto {
         private String description;
         private String gender;
         private String birthDate;
-        private Preference preferences;
-        private Region region;
+        private SearchPreferenceDto preferences;
+        private String region;
 }

@@ -1,8 +1,11 @@
 package com.workshop.Lisa.service;
 
 import com.google.gson.Gson;
+import com.workshop.Lisa.Dto.SearchPreferenceDto;
 import com.workshop.Lisa.Dto.SearchUserDto;
+import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.Preference;
+import com.workshop.Lisa.Entity.Region;
 import com.workshop.Lisa.Entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +43,7 @@ public class SearchService {
 
         userSet.addAll(usersByName);
         userSet.addAll(usersByPreference);
-
+        //delete userID from preferences and hobby/region id from hobby/region
         List<SearchUserDto> returnList = userSet
                 .stream()
                 .map(user -> new SearchUserDto(
@@ -48,8 +51,14 @@ public class SearchService {
                         user.getDescription(),
                         user.getGender().toString(),
                         user.getBirthdate(),
-                        user.getPreferences(),
-                        user.getRegion()))
+                        new SearchPreferenceDto(
+                                user.getPreferences().getGender(),
+                                user.getPreferences().getMaxAge(),
+                                user.getPreferences().getMinAge(),
+                                user.getPreferences().getRegions().stream().map(Region::getName).toArray(String[]::new),
+                                user.getPreferences().getHobbies().stream().map(Hobby::getName).toArray(String[]::new)
+                        ),
+                        user.getRegion().getName()))
                 .toList();
 
         return returnList;

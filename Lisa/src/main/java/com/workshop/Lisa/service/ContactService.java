@@ -144,4 +144,20 @@ public class ContactService {
             return "Friend request already sent";
         }
     }
+
+    public String getFriendStatus(String username, String userIdTwo){
+        long userIdOne = this.userService.findUserByUsername(username).getUserId();
+        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userIdOne, Long.parseLong(userIdTwo));
+        //do we need a check on the second contact?
+        //Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo(Long.parseLong(userIdTwo), userIdOne);
+
+//        if(contact != null && contact2 != null){
+//            return contact.getStatus().toString();
+//        }
+        if(contact != null){
+            return contact.getStatus().toString();
+        }
+
+        return "NO STATUS FOUND";
+    }
 }

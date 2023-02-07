@@ -25,6 +25,14 @@ public class ContactController {
         return gson.toJson(service.getFriendsInfo(username));
     }
 
+    @GetMapping("/getFriendStatus/{userId}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String getFriendStatus(@RequestHeader("Authorization") String token, @PathVariable String userId) {
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return this.service.getFriendStatus(username, userId);
+    }
+
     @PutMapping("/blockUser")
     @PreAuthorize("hasAnyAuthority('USER')")
     public String blockUser(@RequestHeader("Authorization") String token, @RequestBody String userId){
