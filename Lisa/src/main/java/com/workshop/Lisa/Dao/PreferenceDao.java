@@ -12,7 +12,4 @@ public interface PreferenceDao extends CrudRepository<Preference, Long> {
 
     Optional<Preference> findAllByGender(GenderEnum gender);
 
-
-
-
 }
