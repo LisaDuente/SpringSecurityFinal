@@ -140,7 +140,6 @@ public class ContactService {
             contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
             return "You are now friends!";
         }
-
         else {
             return "Friend request already sent";
         }
