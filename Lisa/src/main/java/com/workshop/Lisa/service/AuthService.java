@@ -72,7 +72,7 @@ public class AuthService {
                 contactInfo,
                 pref,
                 regionDao.findByName(userRegisterDto.getRegion()).orElseThrow(() -> new EntityNotFoundException("Could not find region")),
-                "");
+                "src\\main\\resources\\static\\images\\BillWithIcecream.jpg");
 
         //create new user
         System.out.println("user: "+user);
