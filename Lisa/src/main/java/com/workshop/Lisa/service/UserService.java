@@ -13,7 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -177,7 +182,28 @@ public class UserService {
         return matcher.matchWithAllUsers(meUser.getPreferences(),meUser,allUsers);
     }
 
-   //fix a method for updatePreferences and update UserInformation to abstract those two things
+   public String uploadUserPicture(String username, String path){
+        System.out.println("picture path: "+path);
+       User existingUser = this.dao.findByUsername(username)
+               .orElseThrow(() -> new EntityNotFoundException("could not find user"));
+       existingUser.setPhoto(path);
+       this.dao.save(existingUser);
+       return "picture saved";
+   }
 
+   public byte[] getImage(String username){
+       User existingUser = this.dao.findByUsername(username)
+               .orElseThrow(() -> new EntityNotFoundException("could not find user"));
 
+       BufferedImage img = null;
+       try {
+           img = ImageIO.read(new File(existingUser.getPhoto()));
+           ByteArrayOutputStream baos = new ByteArrayOutputStream();
+           ImageIO.write(img, "jpg", baos);
+           return baos.toByteArray();
+       } catch (IOException e) {
+           System.out.println(e);
+       }
+       return null;
+   }
 }

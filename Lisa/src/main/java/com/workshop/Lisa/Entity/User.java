@@ -32,6 +32,7 @@ public class User {
     private Preference preferences;
     @ManyToOne
     private Region region;
+    private String photo;
 
     //preferences here
 
