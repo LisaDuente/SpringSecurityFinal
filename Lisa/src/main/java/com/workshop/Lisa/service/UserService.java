@@ -29,21 +29,21 @@ public class UserService {
     private final Matcher matcher;
 
     public User findUserByUsername(String userName){
-        return this.dao.findByUserName(userName).orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
+        return this.dao.findByUsername(userName).orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
     }
 
     public User updateUser(UpdateUserDto updateUserDto, String username){
-        User existingUser = this.dao.findByUserName(username)
+        User existingUser = this.dao.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
         long userId = existingUser.getUserId();
         ContactInformation ci = contactInformationService.getContactInformation(userId);
         // Maybe add a try catch to check if CI is null.
-        ci.setUserEmail(updateUserDto.getUserEmail());
+        ci.setEmail(updateUserDto.getUserEmail());
         ci.setDiscord(updateUserDto.getDiscord());
         ci.setFacebook(updateUserDto.getFacebook());
         ci.setSnapchat(updateUserDto.getSnapchat());
         ci.setInstagram(updateUserDto.getInstagram());
-        ci.setUserPhoneNumber(updateUserDto.getUserPhoneNumber());
+        ci.setPhoneNumber(updateUserDto.getUserPhoneNumber());
 
         Preference pref = preferenceService.getPrefById(userId);
         pref.setGender(updateUserDto.getPreferedGender());
@@ -51,17 +51,17 @@ public class UserService {
         pref.setMinAge(updateUserDto.getMinAge());
 
         pref.setHobbies(stringArrayToSet(updateUserDto.getHobbies(), "HOBBY"));
-        pref.setRegion(stringArrayToSet(updateUserDto.getRegions(), "REGION"));
+        pref.setRegions(stringArrayToSet(updateUserDto.getRegions(), "REGION"));
 
         existingUser.setPreferences(pref);
         existingUser.setContactInformation(ci);
-        existingUser.setUserFirstname(updateUserDto.getUserFirstname());
-        existingUser.setUserLastName(updateUserDto.getUserLastName());
-        existingUser.setBirthDate(updateUserDto.getBirthDate());
+        existingUser.setFirstName(updateUserDto.getUserFirstname());
+        existingUser.setSurname(updateUserDto.getUserLastName());
+        existingUser.setBirthdate(updateUserDto.getBirthDate());
         existingUser.setGender(GenderEnum.valueOf(updateUserDto.getGender()));
 
         Region userRegion = regionService.findRegionByName(updateUserDto.getUserRegion());
-        existingUser.setUserRegion(userRegion);
+        existingUser.setRegion(userRegion);
 
         existingUser.setDescription(updateUserDto.getDescription());
 
@@ -80,15 +80,15 @@ public class UserService {
             //there will be a better way but too lazy to write a new class
         UserDto sendBackUser = new UserDto(
                 user.getUserId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getDescription(),
-                user.getUserFirstname(),
-                user.getUserLastName(),
+                user.getFirstName(),
+                user.getSurname(),
                 user.getGender().toString(),
-                user.getBirthDate(),
+                user.getBirthdate(),
                 user.getContactInformation(),
                 user.getPreferences(),
-                user.getUserRegion()
+                user.getRegion()
         );
 
         //maybe add check if they are friends show contactInfo
@@ -97,7 +97,7 @@ public class UserService {
     }
 
     public String updateUserPreference(UpdatePreferenceDto dto, String username){
-        User existingUser = this.dao.findByUserName(username)
+        User existingUser = this.dao.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
         long userId = existingUser.getUserId();
 
@@ -107,7 +107,7 @@ public class UserService {
         pref.setMinAge(dto.getMinAge());
 
         pref.setHobbies(stringArrayToSet(dto.getHobbies(), "HOBBY"));
-        pref.setRegion(stringArrayToSet(dto.getRegions(), "REGION"));
+        pref.setRegions(stringArrayToSet(dto.getRegions(), "REGION"));
 
         existingUser.setPreferences(pref);
         this.dao.save(existingUser);
@@ -116,28 +116,28 @@ public class UserService {
     }
 
     public String updateUserInformation(UpdateUserInformationDto updateUserInformationDto, String username) {
-        User existingUser = this.dao.findByUserName(username)
+        User existingUser = this.dao.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
 
         long userId = existingUser.getUserId();
         ContactInformation ci = contactInformationService.getContactInformation(userId);
         // Maybe add a try catch to check if CI is null.
-        ci.setUserEmail(updateUserInformationDto.getUserEmail());
+        ci.setEmail(updateUserInformationDto.getUserEmail());
         ci.setDiscord(updateUserInformationDto.getDiscord());
         ci.setFacebook(updateUserInformationDto.getFacebook());
         ci.setSnapchat(updateUserInformationDto.getSnapchat());
         ci.setInstagram(updateUserInformationDto.getInstagram());
-        ci.setUserPhoneNumber(updateUserInformationDto.getUserPhoneNumber());
+        ci.setPhoneNumber(updateUserInformationDto.getUserPhoneNumber());
 
 
         existingUser.setContactInformation(ci);
-        existingUser.setUserFirstname(updateUserInformationDto.getUserFirstname());
-        existingUser.setUserLastName(updateUserInformationDto.getUserLastName());
-        existingUser.setBirthDate(updateUserInformationDto.getBirthDate());
+        existingUser.setFirstName(updateUserInformationDto.getUserFirstname());
+        existingUser.setSurname(updateUserInformationDto.getUserLastName());
+        existingUser.setBirthdate(updateUserInformationDto.getBirthDate());
         existingUser.setGender(GenderEnum.valueOf(updateUserInformationDto.getGender()));
 
         Region userRegion = regionService.findRegionByName(updateUserInformationDto.getUserRegion());
-        existingUser.setUserRegion(userRegion);
+        existingUser.setRegion(userRegion);
 
         this.dao.save(existingUser);
 

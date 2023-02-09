@@ -24,8 +24,8 @@ public class UpdateUserDto {
     private String discord;
     private String snapchat;
     private String userPhoneNumber;
-    private String minAge;
-    private String maxAge;
+    private int minAge;
+    private int maxAge;
     private String[] hobbies;
     private String[] regions;
     private String preferedGender;

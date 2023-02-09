@@ -17,21 +17,21 @@ public class User {
     //@GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     @Column(unique = true)
-    private String userName;
+    private String username;
     private String description;
-    private String userFirstname;
-    private String userLastName;
-    private String userPassword;
+    private String firstName;
+    private String surname;
+    private String password;
     private String roles;
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
-    private String birthDate;
+    private String birthdate;
     @OneToOne
     private ContactInformation contactInformation;
     @OneToOne
     private Preference preferences;
     @ManyToOne
-    private Region userRegion;
+    private Region region;
 
     //preferences here
 

@@ -17,13 +17,13 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class UserDto {
     private Long userId;
-    private String userName;
+    private String username;
     private String description;
-    private String userFirstname;
-    private String userLastName;
-    private String userGender;
-    private String birthDate;
+    private String firstName;
+    private String surname;
+    private String gender;
+    private String birthdate;
     private ContactInformation contactInformation;
     private Preference preferences;
-    private Region userRegion;
+    private Region region;
 }

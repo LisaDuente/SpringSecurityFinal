@@ -1,16 +1,13 @@
 package com.workshop.Lisa.Dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class PreferenceDto {
-    private String userID;
+@NoArgsConstructor
+public class SearchPreferenceDto {
 
     private String gender;
 
@@ -21,5 +18,4 @@ public class PreferenceDto {
     private String[] regions;
 
     private String[] hobbies;
-
 }

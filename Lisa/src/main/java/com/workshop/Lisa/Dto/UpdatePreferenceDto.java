@@ -4,8 +4,8 @@ import lombok.*;
 
 @Data
 public class UpdatePreferenceDto {
-    private String minAge;
-    private String maxAge;
+    private int minAge;
+    private int maxAge;
     private String[] hobbies;
     private String[] regions;
     private String preferedGender;

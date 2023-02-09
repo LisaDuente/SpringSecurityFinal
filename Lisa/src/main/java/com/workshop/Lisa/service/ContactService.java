@@ -1,5 +1,6 @@
 package com.workshop.Lisa.service;
 
+import com.google.gson.Gson;
 import com.workshop.Lisa.Dao.ContactDao;
 import com.workshop.Lisa.Dto.ContactRequestDto;
 import com.workshop.Lisa.Dto.StatusUpdateDto;
@@ -63,18 +64,18 @@ public class ContactService {
                 ContactInformation contactInfo = contactInformationService.getContactInformation(tempUser.getUserId());
                 userSet.add(new UserContactInfoDto(
                         id,
-                        tempUser.getUserName(),
-                        tempUser.getUserFirstname(),
-                        tempUser.getUserLastName(),
+                        tempUser.getUsername(),
+                        tempUser.getFirstName(),
+                        tempUser.getSurname(),
                         contactInfo,
                         status));
             }else{
                 ContactInformation contactInfo = new ContactInformation();
                 userSet.add(new UserContactInfoDto(
                         id,
-                        tempUser.getUserName(),
-                        tempUser.getUserFirstname(),
-                        tempUser.getUserLastName(),
+                        tempUser.getUsername(),
+                        tempUser.getFirstName(),
+                        tempUser.getSurname(),
                         contactInfo,
                         status));
             }
@@ -132,18 +133,34 @@ public class ContactService {
             contactDao.save(contact);
             return "Friend request sent";
         }
-        else if(contactCheckOne == null && contactCheckTwo.getStatus().equals(ContactEnum.PENDING)) {
-            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
-//            contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
-            return "You are now friends!";
+        else if(contactCheckTwo == null) {
+            return "friend request already sent";
         }
-        else if(contactCheckTwo == null && contactCheckOne.getStatus().equals(ContactEnum.PENDING)){
-//            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
+        else if(contactCheckTwo.getStatus().equals(ContactEnum.PENDING) && contactCheckOne == null){
+            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
             contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
             return "You are now friends!";
         }
         else {
             return "Friend request already sent";
         }
+    }
+
+    public String getFriendStatus(String username, String userIdTwo){
+        Gson gson = new Gson();
+
+        long userIdOne = this.userService.findUserByUsername(username).getUserId();
+        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userIdOne, Long.parseLong(userIdTwo));
+        //do we need a check on the second contact?
+        //Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo(Long.parseLong(userIdTwo), userIdOne);
+
+//        if(contact != null && contact2 != null){
+//            return contact.getStatus().toString();
+//        }
+        if(contact != null){
+            return gson.toJson(contact.getStatus());
+        }
+
+        return gson.toJson("NO STATUS FOUND");
     }
 }

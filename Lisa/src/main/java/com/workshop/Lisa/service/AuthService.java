@@ -2,24 +2,18 @@ package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.RegionDao;
 import com.workshop.Lisa.Dao.UserDao;
-import com.workshop.Lisa.Dto.AuthRequestEmail;
-import com.workshop.Lisa.Dto.AuthenticationRequest;
 import com.workshop.Lisa.Dto.LoginDto;
 import com.workshop.Lisa.Dto.UserRegisterDto;
 import com.workshop.Lisa.Entity.*;
-import com.workshop.Lisa.Utils.DateConverter;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.config.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,11 +56,11 @@ public class AuthService {
 
         Set<Hobby> hobbies= new HashSet<Hobby>();
         Set<Region> regions= new HashSet<Region>();
-        Preference pref = new Preference(contactInfo.getUserID(), "18", "100", "Samtliga", regions ,hobbies);
+        Preference pref = new Preference(contactInfo.getUserId(), 18, 100, "Samtliga", regions ,hobbies);
         this.preferenceService.createPreference(pref);
 
         User user = new User(
-                contactInfo.getUserID(),
+                contactInfo.getUserId(),
                 userRegisterDto.getUserName(),
                 "",
                 userRegisterDto.getUserFirstname(),

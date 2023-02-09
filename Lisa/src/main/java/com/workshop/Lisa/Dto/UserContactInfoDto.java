@@ -11,10 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserContactInfoDto {
 
-        private long userID;
-        private String userName;
-        private String userFirstname;
-        private String userLastname;
+        private long userId;
+        private String username;
+        private String firstName;
+        private String surname;
         private ContactInformation contactInformation;
         private String status;
 
