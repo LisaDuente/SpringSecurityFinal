@@ -76,7 +76,8 @@ public class AuthService {
                 userRegisterDto.getBirthDate(),
                 contactInfo,
                 pref,
-                regionDao.findByName(userRegisterDto.getRegion()).orElseThrow(() -> new EntityNotFoundException("Could not find region")));
+                regionDao.findByName(userRegisterDto.getRegion()).orElseThrow(() -> new EntityNotFoundException("Could not find region")),
+                "");
 
         //create new user
         System.out.println("user: "+user);
