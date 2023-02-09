@@ -47,7 +47,7 @@ public class UserService {
         ci.setPhoneNumber(updateUserDto.getUserPhoneNumber());
 
         Preference pref = preferenceService.getPrefById(userId);
-        pref.setGender(Collections.singleton(updateUserDto.getPreferedGender()));
+        pref.setGender(Collections.singleton(updateUserDto.getGender()));
         pref.setMaxAge(updateUserDto.getMaxAge());
         pref.setMinAge(updateUserDto.getMinAge());
 
