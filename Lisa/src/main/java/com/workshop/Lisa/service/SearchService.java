@@ -19,7 +19,7 @@ public class SearchService {
     private final UserService userService;
 
 
-    public List<SearchUserDto> findByKeyword(String keyword) {
+    public List<SearchUserDto> findByUsername(String keyword) {
         Gson gson = new Gson();
         List<User> users = userService.getAllUsers();
 
@@ -30,20 +30,10 @@ public class SearchService {
                     return found1.contains(keyword.toLowerCase());
                 }).toList();
 
-        List<User> usersByPreference = users
-                .stream()
-                .filter((user2) -> {
-                   Preference found2 = user2.getPreferences();
-                   String stringPref = gson.toJson(found2).toLowerCase();
-                   return stringPref.contains(keyword.toLowerCase());
-                }).toList();
-
 
         HashSet<User> userSet = new HashSet<>();
 
         userSet.addAll(usersByName);
-        userSet.addAll(usersByPreference);
-        //delete userID from preferences and hobby/region id from hobby/region
         List<SearchUserDto> returnList = userSet
                 .stream()
                 .map(user -> new SearchUserDto(
