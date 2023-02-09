@@ -134,15 +134,14 @@ public class ContactService {
         }
         else if(contactCheckOne == null && contactCheckTwo.getStatus().equals(ContactEnum.PENDING)) {
             contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
-            contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
+//            contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
             return "You are now friends!";
         }
         else if(contactCheckTwo == null && contactCheckOne.getStatus().equals(ContactEnum.PENDING)){
-            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
+//            contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
             contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
             return "You are now friends!";
         }
-
         else {
             return "Friend request already sent";
         }
