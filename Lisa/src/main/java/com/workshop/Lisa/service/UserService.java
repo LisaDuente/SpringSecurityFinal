@@ -10,12 +10,13 @@ import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.Utils.Match;
 import com.workshop.Lisa.Utils.Matcher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class UserService {
         ci.setPhoneNumber(updateUserDto.getUserPhoneNumber());
 
         Preference pref = preferenceService.getPrefById(userId);
-        pref.setGender(updateUserDto.getPreferedGender());
+        pref.setGender(Collections.singleton(updateUserDto.getPreferedGender()));
         pref.setMaxAge(updateUserDto.getMaxAge());
         pref.setMinAge(updateUserDto.getMinAge());
 
@@ -101,13 +102,29 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Could not cast Optional into User"));
         long userId = existingUser.getUserId();
 
+
         Preference pref = preferenceService.getPrefById(userId);
-        pref.setGender(dto.getPreferedGender());
+        Set<String> preferredGender = new HashSet<>();
+        if(dto.getPreferredGender() != null){
+            if (dto.getPreferredGender().length == 1 && dto.getPreferredGender()[0].equals("Samtliga")){
+                preferredGender.add("MAN");
+                preferredGender.add("WOMAN");
+                preferredGender.add("OTHER");
+            }
+            else {
+                preferredGender = Set.of(dto.getPreferredGender());
+            }
+        }
+        pref.setGender(preferredGender);
         pref.setMaxAge(dto.getMaxAge());
         pref.setMinAge(dto.getMinAge());
 
-        pref.setHobbies(stringArrayToSet(dto.getHobbies(), "HOBBY"));
-        pref.setRegions(stringArrayToSet(dto.getRegions(), "REGION"));
+        if(dto.getHobbies() != null) {
+            pref.setHobbies(stringArrayToSet(dto.getHobbies(), "HOBBY"));
+        }
+        if(dto.getRegions() != null) {
+            pref.setRegions(stringArrayToSet(dto.getRegions(), "REGION"));
+        }
 
         existingUser.setPreferences(pref);
         this.dao.save(existingUser);

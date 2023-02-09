@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,7 +57,11 @@ public class AuthService {
 
         Set<Hobby> hobbies= new HashSet<Hobby>();
         Set<Region> regions= new HashSet<Region>();
-        Preference pref = new Preference(contactInfo.getUserId(), 18, 100, "Samtliga", regions ,hobbies);
+        Set<String> preferredGender = new HashSet<>();
+        preferredGender.add("MAN");
+        preferredGender.add("WOMAN");
+        preferredGender.add("OTHER");
+        Preference pref = new Preference(contactInfo.getUserId(), 18, 100, preferredGender, regions, hobbies);
         this.preferenceService.createPreference(pref);
 
         User user = new User(
