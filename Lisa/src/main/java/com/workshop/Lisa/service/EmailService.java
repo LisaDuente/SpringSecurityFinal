@@ -23,12 +23,12 @@ public class EmailService {
     public String sendEmail(String username, SendEmailDto dto) throws AddressException, MessagingException, IOException {
 
         User sender = this.userService.findUserByUsername(username);
-        if(sender == null){
+        if (sender == null) {
             return "You need to logg in to send an email.";
         }
 
         User recipient = this.userService.findById(Long.parseLong(dto.getUserID()));
-        if(recipient == null){
+        if (recipient == null) {
             return "recipient could not be found!";
         }
 
@@ -80,7 +80,6 @@ public class EmailService {
                 + "\n[Please do not reply to this email]";
 
         messageBodyPart.setContent(contentText, "text/plain"); // content of message
-        System.out.println(messageBodyPart.getContent());
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
