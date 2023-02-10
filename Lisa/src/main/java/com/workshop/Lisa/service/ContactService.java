@@ -89,6 +89,9 @@ public class ContactService {
         if (contact == null && contact2 == null) {
             return "No friend request found";
         }
+       // if(contact == null){
+        //    this.contactDao.save(new Contact(id, Long.parseLong(userId), ContactEnum.valueOf(status)));
+        //}
         if(contact != null){
             contact.setStatus(ContactEnum.valueOf(status));
             this.contactDao.save(contact);
@@ -97,6 +100,7 @@ public class ContactService {
             contact2.setStatus(ContactEnum.valueOf(status));
             this.contactDao.save(contact2);
         }
+        //both contacts will be blocked if one of the users blocked the other one
         return "Status successfully updated!";
     }
 
@@ -112,6 +116,9 @@ public class ContactService {
             contactDao.delete(contact2);
         }
         if(contact2 == null){
+            contactDao.delete(contact);
+        }
+        if(contact != null && contact2 != null){
             contactDao.delete(contact);
         }
         return "successfully updated request";
@@ -162,5 +169,9 @@ public class ContactService {
         }
 
         return gson.toJson("NO STATUS FOUND");
+    }
+
+    public Contact findContactForUserOneUserTwo(long userOneId, long userTwoId){
+        return this.contactDao.findContactByUserOneAndUserTwo(userOneId, userTwoId);
     }
 }

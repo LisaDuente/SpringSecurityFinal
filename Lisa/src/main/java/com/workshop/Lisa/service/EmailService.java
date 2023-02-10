@@ -2,6 +2,7 @@ package com.workshop.Lisa.service;
 
 
 import com.workshop.Lisa.Dto.SendEmailDto;
+import com.workshop.Lisa.Entity.Contact;
 import com.workshop.Lisa.Entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Properties;
 public class EmailService {
 
     private final UserService userService;
+    private final ContactService contactService;
 
     public String sendEmail(String username, SendEmailDto dto) throws AddressException, MessagingException, IOException {
 
@@ -28,6 +30,23 @@ public class EmailService {
         User recipient = this.userService.findById(Long.parseLong(dto.getUserID()));
         if(recipient == null){
             return "recipient could not be found!";
+        }
+
+        Contact contact1 = this.contactService.findContactForUserOneUserTwo(sender.getUserId(), recipient.getUserId());
+        Contact contact2 = this.contactService.findContactForUserOneUserTwo(recipient.getUserId(), sender.getUserId());
+
+        //check how we accept friend request, need to have two contacts sender/recipient/status and recipient/sender/status
+        //LOOK AT MIRO!
+        if(contact1 != null && contact2 == null){
+            return "your friend request must be accepted by the other user before You can send an email";
+        }
+
+        if(contact2 == null || contact1 == null){
+            return "You haven't sent a friend request yet!";
+        }
+
+        if (!contact1.getStatus().toString().equals("FRIENDS") || !contact2.getStatus().toString().equals("FRIENDS")) {
+            return "You are not friends, you cannot send an email!";
         }
 
         Properties props = new Properties();
