@@ -111,15 +111,15 @@ public class ContactService {
     public String deleteEntry(String username, String id) {
 
         long userId = this.userService.findUserByUsername(username).getUserId();
-        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId,Long.parseLong(id));
+        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId, Long.parseLong(id));
         Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo(Long.parseLong(id), userId);
-        if(contact == null && contact2 == null) {
+        if (contact == null && contact2 == null) {
             return "No relationship/contact status found";
         }
-        if(contact == null){
+        if (contact == null) {
             contactDao.delete(contact2);
         }
-        if(contact2 == null){
+        if (contact2 == null) {
             contactDao.delete(contact);
         }
         if(contact != null && contact2 != null){
@@ -149,7 +149,7 @@ public class ContactService {
             return "Friend request sent";
         }
         else if(contactCheckTwo == null) {
-            return "friend request already sent";
+            return "Unable to send the request.";
         }
         else if(contactCheckTwo.getStatus().equals(ContactEnum.PENDING) && contactCheckOne == null){
             contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));

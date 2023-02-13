@@ -38,7 +38,7 @@ public class EmailService {
         //check how we accept friend request, need to have two contacts sender/recipient/status and recipient/sender/status
         //LOOK AT MIRO!
         if(contact1 != null && contact2 == null){
-            return "your friend request must be accepted by the other user before You can send an email";
+            return "You must be friends to send emails to each other";
         }
 
         if(contact2 == null || contact1 == null){
@@ -46,7 +46,7 @@ public class EmailService {
         }
 
         if (!contact1.getStatus().toString().equals("FRIENDS") || !contact2.getStatus().toString().equals("FRIENDS")) {
-            return "You are not friends, you cannot send an email!";
+            return "You must be friends to send emails to each other";
         }
 
         Properties props = new Properties();
