@@ -6,25 +6,18 @@ import com.workshop.Lisa.Dto.UpdateUserDto;
 import com.workshop.Lisa.Dto.UpdateUserInformationDto;
 import com.workshop.Lisa.config.JwtUtils;
 import com.workshop.Lisa.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -90,38 +83,6 @@ public class UserController {
         return gson.toJson(this.service.getMatches(username));
     }
 
-//    @PostMapping("/uploadPicture")
-//    @PreAuthorize("hasAuthority('USER')")
-//    public String uploadPicture(@RequestPart("file") MultipartFile multipartFile){
-//
-//        try {
-//                File f = new ClassPathResource("").getFile();
-//                final Path path = Paths.get(f.getAbsolutePath() + File.separator + "static" + File.separator + "image");
-//
-//                if(!Files.exists(path)){
-//                    Files.createDirectories(path);
-//                }
-//
-//                Path filePath = path.resolve(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-//                Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//                String fileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                        .path("/image")
-//                        .path(multipartFile.getOriginalFilename())
-//                        .toUriString();
-//
-//                var result = Map.of(
-//                        "filename", multipartFile.getOriginalFilename(),
-//                        "fileUri",fileUri
-//                );
-//
-//                return result.toString();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return "Image file upload error";
-//        }
-//    }
 
     @PostMapping("/uploadPicture")
     public ResponseEntity<String> handleFileUpload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {

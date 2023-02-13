@@ -14,4 +14,5 @@ public class SearchUserDto {
         private String birthDate;
         private SearchPreferenceDto preferences;
         private String region;
+        private String matchPercentage;
 }

@@ -196,6 +196,7 @@ public class UserService {
         User meUser = this.findUserByUsername(username);
         List<User> allUsers = this.getAllUsers();
         return matcher.matchWithAllUsers(meUser.getPreferences(),meUser,allUsers);
+//        return matcher.matchWithAllUsersWithUsernameSearch(meUser.getPreferences(),meUser,allUsers);
     }
 
    public String uploadUserPicture(String username, String path){
