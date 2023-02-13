@@ -89,30 +89,45 @@ public class ContactService {
         if (contact == null && contact2 == null) {
             return "No friend request found";
         }
+       // if(contact == null){
+        //    this.contactDao.save(new Contact(id, Long.parseLong(userId), ContactEnum.valueOf(status)));
+        //}
         if(contact != null){
             contact.setStatus(ContactEnum.valueOf(status));
             this.contactDao.save(contact);
         }
         if(contact2 != null){
+            //if status is FRIEDNS we will accept the request
+            if(status.equals("FRIENDS")){
+                this.contactDao.save(new Contact(id,contact2.getUserOne(), ContactEnum.FRIENDS));
+            }
             contact2.setStatus(ContactEnum.valueOf(status));
             this.contactDao.save(contact2);
         }
+        //both contacts will be blocked if one of the users blocked the other one
         return "Status successfully updated!";
     }
 
     public String deleteEntry(String username, String id) {
 
         long userId = this.userService.findUserByUsername(username).getUserId();
-        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId,Long.parseLong(id));
+        Contact contact = this.contactDao.findContactByUserOneAndUserTwo(userId, Long.parseLong(id));
         Contact contact2 = this.contactDao.findContactByUserOneAndUserTwo(Long.parseLong(id), userId);
-        if(contact == null && contact2 == null) {
+        if (contact == null && contact2 == null) {
             return "No relationship/contact status found";
         }
-        if(contact == null){
+        if (contact == null) {
             contactDao.delete(contact2);
         }
-        if(contact2 == null){
+        if (contact2 == null) {
             contactDao.delete(contact);
+        }
+        if(contact != null && contact2 != null){
+            contactDao.delete(contact);
+            if(!contact.getStatus().toString().equals("BLOCKED")){
+                contactDao.delete(contact2);
+            }
+
         }
         return "successfully updated request";
 
@@ -134,7 +149,7 @@ public class ContactService {
             return "Friend request sent";
         }
         else if(contactCheckTwo == null) {
-            return "friend request already sent";
+            return "Unable to send the request.";
         }
         else if(contactCheckTwo.getStatus().equals(ContactEnum.PENDING) && contactCheckOne == null){
             contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
@@ -162,5 +177,9 @@ public class ContactService {
         }
 
         return gson.toJson("NO STATUS FOUND");
+    }
+
+    public Contact findContactForUserOneUserTwo(long userOneId, long userTwoId){
+        return this.contactDao.findContactByUserOneAndUserTwo(userOneId, userTwoId);
     }
 }
