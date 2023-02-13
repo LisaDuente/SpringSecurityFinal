@@ -8,5 +8,5 @@ public class UpdatePreferenceDto {
     private int maxAge;
     private String[] hobbies;
     private String[] regions;
-    private String preferedGender;
+    private String[] preferredGender;
 }

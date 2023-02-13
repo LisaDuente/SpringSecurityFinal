@@ -1,5 +1,6 @@
 package com.workshop.Lisa.Entity;
 
+import com.workshop.Lisa.Utils.GenderEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,9 @@ public class Preference {
     private long userId;
     private int minAge;
     private int maxAge;
-    private String gender;
+    @ElementCollection
+    private Set<String> gender;
+    //    private String gender;
     @ManyToMany
     @JoinTable(
             name = "regionUser",
