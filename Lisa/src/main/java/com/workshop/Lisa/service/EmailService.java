@@ -42,7 +42,7 @@ public class EmailService {
         }
 
         if(contact2 == null || contact1 == null){
-            return "You haven't sent a friend request yet!";
+            return "You must be friends to send emails to each other";
         }
 
         if (!contact1.getStatus().toString().equals("FRIENDS") || !contact2.getStatus().toString().equals("FRIENDS")) {

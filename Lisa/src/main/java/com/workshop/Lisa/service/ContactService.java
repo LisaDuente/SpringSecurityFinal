@@ -97,6 +97,10 @@ public class ContactService {
             this.contactDao.save(contact);
         }
         if(contact2 != null){
+            //if status is FRIEDNS we will accept the request
+            if(status.equals("FRIENDS")){
+                this.contactDao.save(new Contact(id,contact2.getUserOne(), ContactEnum.FRIENDS));
+            }
             contact2.setStatus(ContactEnum.valueOf(status));
             this.contactDao.save(contact2);
         }
@@ -120,6 +124,10 @@ public class ContactService {
         }
         if(contact != null && contact2 != null){
             contactDao.delete(contact);
+            if(!contact.getStatus().toString().equals("BLOCKED")){
+                contactDao.delete(contact2);
+            }
+
         }
         return "successfully updated request";
 
