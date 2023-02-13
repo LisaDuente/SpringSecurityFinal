@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchPreferenceDto {
 
-    private String gender;
+    private String[] gender;
 
     private int maxAge;
 

@@ -5,7 +5,7 @@ import com.workshop.Lisa.Entity.Hobby;
 import com.workshop.Lisa.Entity.Preference;
 import com.workshop.Lisa.Entity.Region;
 import com.workshop.Lisa.Entity.User;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Set;
 
 
-@NoArgsConstructor
+//@NoArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class Matcher {
-
 
     public ArrayList<Match> matchWithAllUsers(Preference mePrefs, User meUser, List<User> allUsers) {
 
@@ -35,7 +35,6 @@ public class Matcher {
     }
 
     public Match matchUsers(Preference me, Preference you, User user, User meUser) {
-        //create userSharedPreferenceSet
 
         HashSet<String> shared = new HashSet<>();
         int countMatches = 0;

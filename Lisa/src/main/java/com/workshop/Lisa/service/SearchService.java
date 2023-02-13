@@ -4,24 +4,27 @@ import com.google.gson.Gson;
 import com.workshop.Lisa.Dto.SearchPreferenceDto;
 import com.workshop.Lisa.Dto.SearchUserDto;
 import com.workshop.Lisa.Entity.Hobby;
-import com.workshop.Lisa.Entity.Preference;
 import com.workshop.Lisa.Entity.Region;
 import com.workshop.Lisa.Entity.User;
+import com.workshop.Lisa.Utils.Match;
+import com.workshop.Lisa.Utils.Matcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SearchService {
     private final UserService userService;
+    private final Matcher matcher;
 
 
-    public List<SearchUserDto> findByKeyword(String keyword) {
+    public List<SearchUserDto> searchByUsername(String keyword, String username) {
         Gson gson = new Gson();
+        User currentUser = userService.findUserByUsername(username);
         List<User> users = userService.getAllUsers();
+
 
         List<User> usersByName = users
                 .stream()
@@ -30,37 +33,31 @@ public class SearchService {
                     return found1.contains(keyword.toLowerCase());
                 }).toList();
 
-        List<User> usersByPreference = users
+        List<Match> matches = matcher.matchWithAllUsers(currentUser.getPreferences(), currentUser, usersByName);
+
+        List<SearchUserDto> returnList = matches
                 .stream()
-                .filter((user2) -> {
-                   Preference found2 = user2.getPreferences();
-                   String stringPref = gson.toJson(found2).toLowerCase();
-                   return stringPref.contains(keyword.toLowerCase());
-                }).toList();
-
-
-        HashSet<User> userSet = new HashSet<>();
-
-        userSet.addAll(usersByName);
-        userSet.addAll(usersByPreference);
-        //delete userID from preferences and hobby/region id from hobby/region
-        List<SearchUserDto> returnList = userSet
-                .stream()
-                .map(user -> new SearchUserDto(
-                        user.getUsername(),
-                        user.getDescription(),
-                        user.getGender().toString(),
-                        user.getBirthdate(),
-                        new SearchPreferenceDto(
-                                user.getPreferences().getGender(),
-                                user.getPreferences().getMaxAge(),
-                                user.getPreferences().getMinAge(),
-                                user.getPreferences().getRegions().stream().map(Region::getName).toArray(String[]::new),
-                                user.getPreferences().getHobbies().stream().map(Hobby::getName).toArray(String[]::new)
-                        ),
-                        user.getRegion().getName()))
+                .map(match -> createSearchUserDto(match))
                 .toList();
 
         return returnList;
+    }
+
+    private SearchUserDto createSearchUserDto(Match match) {
+
+        return new SearchUserDto(
+        match.getUser().getUsername(),
+        match.getUser().getDescription(),
+        match.getUser().getGender().toString(),
+        match.getUser().getBirthdate(),
+        new SearchPreferenceDto(
+                match.getUser().getPreferences().getGender().toArray(String[]::new),
+                match.getUser().getPreferences().getMaxAge(),
+                match.getUser().getPreferences().getMinAge(),
+                match.getUser().getPreferences().getRegions().stream().map(Region::getName).toArray(String[]::new),
+                match.getUser().getPreferences().getHobbies().stream().map(Hobby::getName).toArray(String[]::new)
+        ),
+        match.getUser().getRegion().getName(),
+        String.valueOf(match.getMatchPercentage()));
     }
 }
