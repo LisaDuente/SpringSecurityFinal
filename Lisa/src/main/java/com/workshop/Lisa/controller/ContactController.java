@@ -35,10 +35,10 @@ public class ContactController {
 
     @PutMapping("/blockUser")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public String blockUser(@RequestHeader("Authorization") String token, @RequestBody String userId){
+    public String blockUser(@RequestHeader("Authorization") String token, @RequestBody ContactRequestDto contactRequestDto){
         token = token.substring(7);
         String username = jwtHelper.extractUsername(token);
-        return service.updateStatus(username, userId, "BLOCKED");
+        return service.updateStatus(username, contactRequestDto.getFriendID(), "BLOCKED");
     }
 
     @PutMapping("/acceptFriendRequest")
