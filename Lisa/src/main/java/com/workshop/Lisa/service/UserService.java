@@ -1,10 +1,7 @@
 package com.workshop.Lisa.service;
 
 import com.workshop.Lisa.Dao.UserDao;
-import com.workshop.Lisa.Dto.UpdatePreferenceDto;
-import com.workshop.Lisa.Dto.UpdateUserDto;
-import com.workshop.Lisa.Dto.UpdateUserInformationDto;
-import com.workshop.Lisa.Dto.UserDto;
+import com.workshop.Lisa.Dto.*;
 import com.workshop.Lisa.Entity.*;
 import com.workshop.Lisa.Utils.GenderEnum;
 import com.workshop.Lisa.Utils.Match;
@@ -199,14 +196,11 @@ public class UserService {
 //        return matcher.matchWithAllUsersWithUsernameSearch(meUser.getPreferences(),meUser,allUsers);
     }
 
-    public String getMatchPercentage(String username, String userID){
+    public PercentageDto getMatchPercentage(String username, String userID){
         User meUser = this.findUserByUsername(username);
         User youUser = this.findById(Long.parseLong(userID));
-        if(youUser == null){
-            return "User not found!";
-        }
         Match match = matcher.matchUsers(meUser.getPreferences(),youUser.getPreferences(),youUser,meUser);
-        return Integer.toString(match.getMatchPercentage());
+        return new PercentageDto(Integer.toString(match.getMatchPercentage()));
     }
 
    public String uploadUserPicture(String username, String path){
