@@ -83,6 +83,15 @@ public class UserController {
         return gson.toJson(this.service.getMatches(username));
     }
 
+    @GetMapping("/getMatchPercentage/{userId}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public String getMatchPercentage(@RequestHeader("Authorization") String token, @PathVariable String userId){
+        Gson gson = new Gson();
+        token = token.substring(7);
+        String username = jwtHelper.extractUsername(token);
+        return gson.toJson(this.service.getMatchPercentage(username, userId));
+    }
+
 
     @PostMapping("/uploadPicture")
     public ResponseEntity<String> handleFileUpload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {

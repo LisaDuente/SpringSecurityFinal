@@ -199,6 +199,16 @@ public class UserService {
 //        return matcher.matchWithAllUsersWithUsernameSearch(meUser.getPreferences(),meUser,allUsers);
     }
 
+    public String getMatchPercentage(String username, String userID){
+        User meUser = this.findUserByUsername(username);
+        User youUser = this.findById(Long.parseLong(userID));
+        if(youUser == null){
+            return "User not found!";
+        }
+        Match match = matcher.matchUsers(meUser.getPreferences(),youUser.getPreferences(),youUser,meUser);
+        return Integer.toString(match.getMatchPercentage());
+    }
+
    public String uploadUserPicture(String username, String path){
         System.out.println("picture path: "+path);
        User existingUser = this.dao.findByUsername(username)
