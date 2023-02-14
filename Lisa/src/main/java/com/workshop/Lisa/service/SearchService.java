@@ -20,8 +20,7 @@ public class SearchService {
     private final Matcher matcher;
 
 
-    public List<SearchUserDto> searchByUsername(String keyword, String username) {
-        Gson gson = new Gson();
+    public List<Match> searchByUsername(String keyword, String username) {
         User currentUser = userService.findUserByUsername(username);
         List<User> users = userService.getAllUsers();
 
@@ -33,31 +32,6 @@ public class SearchService {
                     return found1.contains(keyword.toLowerCase());
                 }).toList();
 
-        List<Match> matches = matcher.matchWithAllUsers(currentUser.getPreferences(), currentUser, usersByName);
-
-        List<SearchUserDto> returnList = matches
-                .stream()
-                .map(match -> createSearchUserDto(match))
-                .toList();
-
-        return returnList;
-    }
-
-    private SearchUserDto createSearchUserDto(Match match) {
-
-        return new SearchUserDto(
-        match.getUser().getUsername(),
-        match.getUser().getDescription(),
-        match.getUser().getGender().toString(),
-        match.getUser().getBirthdate(),
-        new SearchPreferenceDto(
-                match.getUser().getPreferences().getGender().toArray(String[]::new),
-                match.getUser().getPreferences().getMaxAge(),
-                match.getUser().getPreferences().getMinAge(),
-                match.getUser().getPreferences().getRegions().stream().map(Region::getName).toArray(String[]::new),
-                match.getUser().getPreferences().getHobbies().stream().map(Hobby::getName).toArray(String[]::new)
-        ),
-        match.getUser().getRegion().getName(),
-        String.valueOf(match.getMatchPercentage()));
+        return matcher.matchWithAllUsers(currentUser.getPreferences(), currentUser, usersByName);
     }
 }
