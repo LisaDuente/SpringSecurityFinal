@@ -26,4 +26,6 @@ public class UserDto {
     private ContactInformation contactInformation;
     private Preference preferences;
     private Region region;
+
+    private String photo;
 }

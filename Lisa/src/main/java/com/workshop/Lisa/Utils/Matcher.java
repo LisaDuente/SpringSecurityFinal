@@ -112,7 +112,8 @@ public class Matcher {
                 user.getBirthdate(),
                 user.getContactInformation(),
                 user.getPreferences(),
-                user.getRegion()
+                user.getRegion(),
+                user.getPhoto()
                 );
 
         int intPercentage = Math.round(percentage);
