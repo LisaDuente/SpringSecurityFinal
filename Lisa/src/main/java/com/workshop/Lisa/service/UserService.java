@@ -227,4 +227,20 @@ public class UserService {
        }
        return null;
    }
+
+    public byte[] getImageById(String id){
+        User existingUser = this.dao.findById(Long.parseLong(id))
+                .orElseThrow(() -> new EntityNotFoundException("could not find user"));
+
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(existingUser.getPhoto()));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(img, "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

@@ -118,5 +118,14 @@ public class UserController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(image);
     }
+
+    @GetMapping("/getPictureById/{id}")
+    public ResponseEntity<?> getImageById(@PathVariable String id){
+        byte[] image = this.service.getImageById(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(image);
+    }
 }
 
