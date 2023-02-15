@@ -99,7 +99,7 @@ public class UserController {
         String username = jwtHelper.extractUsername(token);
         try {
             byte[] fileBytes = file.getBytes();
-                Path path = Paths.get("src/main/resources/static/images/" + file.getOriginalFilename());
+                Path path = Paths.get("Lisa/src/main/resources/static/images/" + file.getOriginalFilename());
                 Files.write(path, fileBytes);
                 this.service.uploadUserPicture(username, path.toString());
             return ResponseEntity.ok("File uploaded successfully");
