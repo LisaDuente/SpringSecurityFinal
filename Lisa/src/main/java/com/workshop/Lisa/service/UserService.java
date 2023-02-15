@@ -48,7 +48,18 @@ public class UserService {
         ci.setPhoneNumber(updateUserDto.getUserPhoneNumber());
 
         Preference pref = preferenceService.getPrefById(userId);
-        pref.setGender(Collections.singleton(updateUserDto.getGender()));
+        Set<String> preferredGender = new HashSet<>();
+        if(updateUserDto.getPreferedGender() != null){
+            if (updateUserDto.getPreferedGender().length == 1 && updateUserDto.getPreferedGender()[0].equals("Samtliga")){
+                preferredGender.add("MAN");
+                preferredGender.add("WOMAN");
+                preferredGender.add("OTHER");
+            }
+            else {
+                preferredGender = Set.of(updateUserDto.getPreferedGender());
+            }
+        }
+        pref.setGender(preferredGender);
         pref.setMaxAge(updateUserDto.getMaxAge());
         pref.setMinAge(updateUserDto.getMinAge());
 

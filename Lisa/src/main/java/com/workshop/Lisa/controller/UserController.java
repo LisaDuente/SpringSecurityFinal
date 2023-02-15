@@ -30,7 +30,7 @@ public class UserController {
     @PutMapping("/updateUser")
     @PreAuthorize("hasAnyAuthority('USER')")
     public String updateUser(@RequestBody UpdateUserDto updateUserDto, @RequestHeader("Authorization") String token){
-
+        System.out.println(updateUserDto.getGender());
         token = token.substring(7);
         String username = jwtHelper.extractUsername(token);
         this.service.updateUser(updateUserDto, username);
