@@ -90,7 +90,8 @@ public class UserService {
                 user.getBirthdate(),
                 user.getContactInformation(),
                 user.getPreferences(),
-                user.getRegion()
+                user.getRegion(),
+                user.getPhoto()
         );
 
         //maybe add check if they are friends show contactInfo
