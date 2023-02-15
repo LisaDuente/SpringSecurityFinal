@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class ContactService {
         long userId = this.userService.findUserByUsername(username).getUserId();
 
         List<Contact> userOne = contactDao.findByUserOne(userId);
-        //List<Contact> userTwo = contactDao.findByUserTwo(userId);
+        List<Contact> userTwo = contactDao.findByUserTwo(userId);
 
         //HashSet<Long> userOneSet = (HashSet<Long>) userOne.stream().map(Contact::getUserTwo).collect(Collectors.toSet());
         HashSet<String> userOneTupleSet = new HashSet<String>();
@@ -37,19 +38,22 @@ public class ContactService {
             userOneTupleSet.add(tuple);
         }
 
+        HashSet<String> withoutPending = new HashSet<>(userOneTupleSet.stream().filter((tuple) -> !tuple.contains("PENDING")).collect(Collectors.toSet()));
+
         //HashSet<Long> userTwoSet = (HashSet<Long>) userTwo.stream().map(Contact::getUserOne).collect(Collectors.toSet());
-        //HashSet<String> userTwoTupleSet = new HashSet<String>();
-        //for (Contact contact: userTwo) {
-        //    final String tuple = contact.getUserOne().toString()+","+(contact.getStatus().toString());
-        //    userTwoTupleSet.add(tuple);
-        //}
+        HashSet<String> userTwoTupleSet = new HashSet<String>();
+        for (Contact contact: userTwo) {
+            final String tuple = contact.getUserOne().toString()+","+(contact.getStatus().toString());
+            userTwoTupleSet.add(tuple);
+        }
+
+        HashSet<String> withPending = new HashSet<>(userTwoTupleSet.stream().filter((tuple) -> tuple.contains("PENDING")).collect(Collectors.toSet()));
 
         HashSet<UserContactInfoDto> userSet = new HashSet<UserContactInfoDto>();
 
-        extractUserInfo(userOneTupleSet, userSet);
+        extractUserInfo(withoutPending, userSet);
 
-        //extractUserInfo(userTwoTupleSet, userSet);
-
+        extractUserInfo(withPending, userSet);
 
         return userSet;
 
