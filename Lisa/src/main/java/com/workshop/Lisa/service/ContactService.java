@@ -144,25 +144,25 @@ public class ContactService {
         Contact contact = new Contact(userIdOne, userIdTwo, ContactEnum.PENDING);
 
         if(userIdOne == userIdTwo){
-            return "You can not add yourself!";
+            return "{'text': 'Du kan inte lägga till dig själv'}";
         }
         Contact contactCheckOne = contactDao.findContactByUserOneAndUserTwo(userIdOne, userIdTwo);
         Contact contactCheckTwo = contactDao.findContactByUserOneAndUserTwo(userIdTwo, userIdOne);
 
         if(contactCheckOne == null && contactCheckTwo == null) {
             contactDao.save(contact);
-            return "Friend request sent";
+            return "{\"text\": \"Skickade vänförfrågan.\"}";
         }
         else if(contactCheckTwo == null) {
-            return "Unable to send the request.";
+            return "{\"text\": \"Något fel inträffade!\"}";
         }
         else if(contactCheckTwo.getStatus().equals(ContactEnum.PENDING) && contactCheckOne == null){
             contactDao.save(new Contact(userIdOne, userIdTwo, ContactEnum.FRIENDS));
             contactDao.save(new Contact(userIdTwo, userIdOne, ContactEnum.FRIENDS));
-            return "You are now friends!";
+            return "{\"text\": \"Ni är nu vänner!\"}";
         }
         else {
-            return "Friend request already sent";
+            return "{\"text\": \"Vänförfrågan redan skickad!\"}";
         }
     }
 
